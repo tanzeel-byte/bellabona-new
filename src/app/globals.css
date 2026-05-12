@@ -1,26 +1,87 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/*
+  Design tokens extracted from the Bella&Bona Figma file.
+  Trade-off: Roc Grotesk is the brand display face but is paid (LineTo).
+  Figtree is the closest free alternative on Google Fonts and is used as a
+  stand-in until the licensed face is added (see README).
+*/
+@theme {
+  /* Brand
+     - brand-green:   primary surface (hero block, header CTA)
+     - brand-forest:  deeper variant used for footer
+     - brand-ink:     deepest text-on-light variant
+     - brand-accent:  lime CTA + display wordmark accent
+     All values sourced directly from the Figma file's variable defs. */
+  --color-brand-green: #085136;
+  --color-brand-forest: #024930;
+  --color-brand-ink: #002616;
+  --color-brand-accent: #e6ffa9;        /* lime accent — extracted directly from the hero SVG */
+  --color-brand-accent-hover: #dbf68f;   /* slightly deeper lime for hover */
+
+  /* Surfaces */
+  --color-page: #ffffff;
+  --color-surface: #fbfdfc;
+  --color-tan: #f2f0ee;
+  --color-pink-ultra-light: #fff0ed;
+
+  /* Text */
+  --color-ink: #1a211e;
+  --color-ink-muted: #5f6563;
+  --color-ink-soft: #272e35;
+
+  /* Border */
+  --color-line: #00140a34;
+
+  /* Typography */
+  --font-sans: var(--font-figtree), "Figtree", ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-archivo), "Archivo Black", "Roc Grotesk", ui-sans-serif, system-ui, sans-serif;
+
+  /* Spacing scale matches Figma Spacing/N tokens */
+  --spacing: 4px;
+
+  /* Page container */
+  --container-content: 1280px;
+  --container-narrow: 960px;
+
+  /* Radii */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 12px;
+  --radius-pill: 9999px;
+
+  /* Shadows */
+  --shadow-card: 0 1px 4px rgba(0, 31, 21, 0.1), 0 0 0 1px rgba(0, 45, 30, 0.07);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-page);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+}
+
+/*
+  Lightweight entrance animation primitive used by sections.
+  Honours prefers-reduced-motion. Pure CSS — does not block LCP.
+*/
+@media (prefers-reduced-motion: no-preference) {
+  .reveal {
+    animation: reveal 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+}
+
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

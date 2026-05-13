@@ -4,6 +4,7 @@ import type { Route } from "next";
 
 import { Container } from "@/components/ui/Container";
 import { FIGMA_IMAGES } from "@/lib/figma/assets";
+import { sanityImageUrl } from "@/lib/sanity-image";
 import { pickLocale, type Locale } from "@/lib/i18n";
 import type { Homepage } from "@/types/sanity";
 
@@ -17,6 +18,10 @@ export function SupportSection({ section, locale }: Props) {
   const body = pickLocale(section.body, locale);
   const ctaLabel = pickLocale(section.cta?.label, locale);
   const ctaHref = section.cta?.href;
+
+  const panelSrc =
+    sanityImageUrl(section.panelImage, 1200) ?? FIGMA_IMAGES.supportEmail;
+  const panelAlt = pickLocale(section.panelImage?.alt, locale) ?? "";
 
   if (!heading && !body && !(ctaLabel && ctaHref)) return null;
 
@@ -52,8 +57,8 @@ export function SupportSection({ section, locale }: Props) {
             <div className="relative w-full max-w-[449px] shrink-0 self-stretch overflow-clip rounded-2xl bg-[#fff0ed] lg:min-h-[280px]">
               <div className="absolute left-[-41px] top-[-67.02px] h-[654px] w-[523px]">
                 <Image
-                  alt=""
-                  src={FIGMA_IMAGES.supportEmail}
+                  alt={panelAlt}
+                  src={panelSrc}
                   width={1024}
                   height={1024}
                   className="pointer-events-none absolute left-[-38.79%] top-[-2.05%] h-[92.85%] w-[174.06%] max-w-none object-cover"

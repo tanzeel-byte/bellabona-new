@@ -1,6 +1,7 @@
 import Image from "next/image";
 
 import { FIGMA_IMAGES } from "@/lib/figma/assets";
+import { sanityImageUrl } from "@/lib/sanity-image";
 import svgPaths from "@/lib/figma/svg-paths";
 import { pickLocale, type Locale } from "@/lib/i18n";
 import type { ProductCard as ProductCardType } from "@/types/sanity";
@@ -14,7 +15,9 @@ type Props = {
 export function ProductCard({ card, locale, index = 0 }: Props) {
   const tag = pickLocale(card.tag, locale);
   const title = pickLocale(card.title, locale);
-  const mealSrc = FIGMA_IMAGES.meals[index % FIGMA_IMAGES.meals.length];
+  const mealSrc =
+    sanityImageUrl(card.image, 1200) ??
+    FIGMA_IMAGES.meals[index % FIGMA_IMAGES.meals.length];
   const imageAlt = pickLocale(card.image?.alt, locale) ?? title ?? "";
   const reviewsLabel = locale === "de" ? "Bewertungen" : "reviews";
   const splitRatingStyle = index >= 3;

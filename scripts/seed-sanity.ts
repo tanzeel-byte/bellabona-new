@@ -125,6 +125,19 @@ const PRODUCT_MEAL_FILES = [
   "public/figma/0462d331bbcf0cd50b53eef04960cebe907f2d1f.png",
 ] as const;
 
+/** Raster assets for sections that were previously hard-coded from `/public/figma`. */
+const EXTRA_HOMEPAGE_IMAGES = {
+  cultureSpotlight: "public/figma/85970255b1566b5d61000cfbe64fb0e307a19785.png",
+  taxDish: "public/figma/55aff9ae3c4b255b3eaf4ffafe55a406a5c629aa.png",
+  stepsDelivery: "public/figma/769af878f206ca771f404227b5329344b501509d.png",
+  stepsRoute: "public/figma/b16983dbbfdba808ef1a7dad904f707b702ee7b7.png",
+  testimonialLeft: "public/figma/b40bece241cf1a347674cf687b829682bd0faff4.png",
+  testimonialRight: "public/figma/279b31903ae3076b759604c0269e112cb14ed907.png",
+  contactPortrait: "public/figma/cbf6321a32864077eac1d67a56a7aeb059e4f7fe.png",
+  supportPanel: "public/figma/dc411567935f3fc377b264ccbb330cbf2064fe57.png",
+  playStoreBadge: "public/figma/d3ec3c38d6fda2e589d860c57721e7c25ccecbdd.png",
+} as const;
+
 async function seed() {
   console.log(`→ Seeding project ${projectId} / ${dataset}`);
 
@@ -154,6 +167,50 @@ async function seed() {
       uploadImageFromFile(join(process.cwd(), relativePath), relativePath.split("/").pop()!),
     ),
   );
+
+  console.log("\n4b. Uploading homepage section images …");
+  const [
+    cultureSpotlightId,
+    taxDishId,
+    stepsDeliveryId,
+    stepsRouteId,
+    testimonialLeftId,
+    testimonialRightId,
+    contactPortraitId,
+    supportPanelId,
+    playStoreBadgeId,
+  ] = await Promise.all([
+    uploadImageFromFile(
+      join(process.cwd(), EXTRA_HOMEPAGE_IMAGES.cultureSpotlight),
+      "culture-spotlight.png",
+    ),
+    uploadImageFromFile(join(process.cwd(), EXTRA_HOMEPAGE_IMAGES.taxDish), "tax-cta-dish.png"),
+    uploadImageFromFile(
+      join(process.cwd(), EXTRA_HOMEPAGE_IMAGES.stepsDelivery),
+      "steps-delivery.png",
+    ),
+    uploadImageFromFile(join(process.cwd(), EXTRA_HOMEPAGE_IMAGES.stepsRoute), "steps-route.png"),
+    uploadImageFromFile(
+      join(process.cwd(), EXTRA_HOMEPAGE_IMAGES.testimonialLeft),
+      "testimonial-left.png",
+    ),
+    uploadImageFromFile(
+      join(process.cwd(), EXTRA_HOMEPAGE_IMAGES.testimonialRight),
+      "testimonial-right.png",
+    ),
+    uploadImageFromFile(
+      join(process.cwd(), EXTRA_HOMEPAGE_IMAGES.contactPortrait),
+      "contact-portrait.png",
+    ),
+    uploadImageFromFile(
+      join(process.cwd(), EXTRA_HOMEPAGE_IMAGES.supportPanel),
+      "support-panel.png",
+    ),
+    uploadImageFromFile(
+      join(process.cwd(), EXTRA_HOMEPAGE_IMAGES.playStoreBadge),
+      "google-play-badge.png",
+    ),
+  ]);
 
   // ---- Site settings ----
   console.log("\n5. Writing siteSettings singleton …");
@@ -452,6 +509,10 @@ async function seed() {
         googleReviewUrl: "https://google.com/maps/place/bellabona",
         googleRatingValue: "4.7",
         googleRatingScale: "/5",
+        playStoreBadgeImage: {
+          ...imageRef(playStoreBadgeId),
+          alt: { en: "Get it on Google Play", de: "Bei Google Play herunterladen" },
+        },
       },
     },
     logoBar: {
@@ -615,6 +676,13 @@ async function seed() {
           },
         },
       ],
+      image: {
+        ...imageRef(cultureSpotlightId),
+        alt: {
+          en: "Team enjoying lunch together",
+          de: "Team beim gemeinsamen Mittagessen",
+        },
+      },
     },
     taxCtaSection: {
       headline: {
@@ -630,6 +698,10 @@ async function seed() {
       salePrice: { en: "4.50€", de: "4,50 €" },
       listPrice: { en: "9.90€", de: "9,90 €" },
       savingsLabel: { en: "You save 5.40 €", de: "Sie sparen 5,40 €" },
+      dishImage: {
+        ...imageRef(taxDishId),
+        alt: { en: "Pasta bowl meal photo", de: "Foto der Pasta Bowl" },
+      },
     },
     stepsSection: {
       headingLine1: {
@@ -637,6 +709,14 @@ async function seed() {
         de: "Vom Test-Mittagessen zu glücklichen Teams in",
       },
       headingLine2: { en: "3 easy steps", de: "3 einfachen Schritten" },
+      deliveryPhoto: {
+        ...imageRef(stepsDeliveryId),
+        alt: { en: "Delivery map preview", de: "Kartenansicht Lieferung" },
+      },
+      routeOverlayPhoto: {
+        ...imageRef(stepsRouteId),
+        alt: { en: "Route overlay", de: "Routen-Overlay" },
+      },
       steps: [
         {
           _key: cryptoKey(),
@@ -740,6 +820,14 @@ async function seed() {
       },
       authorName: { en: "Anna Boehm", de: "Anna Boehm" },
       authorRole: { en: "People Manager", de: "People Managerin" },
+      leftPhoto: {
+        ...imageRef(testimonialLeftId),
+        alt: { en: "Team lunch scene", de: "Team beim Mittagessen" },
+      },
+      rightPhoto: {
+        ...imageRef(testimonialRightId),
+        alt: { en: "Colleague enjoying lunch", de: "Kollegin beim Mittagessen" },
+      },
     },
     contactSection: {
       headline: {
@@ -765,6 +853,10 @@ async function seed() {
         en: "Request a free quote",
         de: "Kostenloses Angebot anfordern",
       },
+      portraitImage: {
+        ...imageRef(contactPortraitId),
+        alt: { en: "Sara Dorofeev portrait", de: "Porträt von Sara Dorofeev" },
+      },
     },
     supportSection: {
       heading: {
@@ -774,6 +866,10 @@ async function seed() {
       body: {
         en: "Access the Support Center to manage orders, check your balance, or resolve questions about your account.",
         de: "Nutzen Sie das Support Center, um Bestellungen zu verwalten, Ihr Guthaben zu prüfen oder Fragen zu Ihrem Konto zu klären.",
+      },
+      panelImage: {
+        ...imageRef(supportPanelId),
+        alt: { en: "Support inbox illustration", de: "Illustration Support-Posteingang" },
       },
       cta: {
         label: { en: "Go to Support Center", de: "Zum Support Center" },

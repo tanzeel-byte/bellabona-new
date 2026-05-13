@@ -4,7 +4,7 @@ import { Container } from "@/components/ui/Container";
 import { FIGMA_IMAGES } from "@/lib/figma/assets";
 import svgPaths from "@/lib/figma/svg-paths";
 import { pickLocale, type Locale } from "@/lib/i18n";
-import { urlFor } from "@/sanity/lib/image";
+import { sanityImageUrl } from "@/lib/sanity-image";
 import type { Homepage } from "@/types/sanity";
 
 type Props = {
@@ -30,9 +30,8 @@ export function CultureSection({ section, locale }: Props) {
       }))
       .filter((item) => item.title || item.body) ?? [];
 
-  const imageSrc = section.image?.asset
-    ? urlFor(section.image).width(1400).url()
-    : FIGMA_IMAGES.cultureSpotlight;
+  const imageSrc =
+    sanityImageUrl(section.image, 1400) ?? FIGMA_IMAGES.cultureSpotlight;
   const imageAlt =
     pickLocale(section.image?.alt, locale) ?? heading ?? "Team enjoying lunch";
 

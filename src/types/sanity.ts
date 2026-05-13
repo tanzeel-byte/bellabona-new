@@ -76,6 +76,7 @@ export type AppBadges = {
   googleReviewUrl?: string;
   googleRatingValue?: string;
   googleRatingScale?: string;
+  playStoreBadgeImage?: SanityImage;
 };
 
 export type Homepage = {
@@ -123,10 +124,13 @@ export type Homepage = {
     salePrice?: LocaleString;
     listPrice?: LocaleString;
     savingsLabel?: LocaleString;
+    dishImage?: SanityImage;
   };
   stepsSection?: {
     headingLine1?: LocaleString;
     headingLine2?: LocaleString;
+    deliveryPhoto?: SanityImage;
+    routeOverlayPhoto?: SanityImage;
     steps?: Array<{
       stepLabel?: LocaleString;
       title?: LocaleString;
@@ -149,6 +153,8 @@ export type Homepage = {
     quote?: LocaleString;
     authorName?: LocaleString;
     authorRole?: LocaleString;
+    leftPhoto?: SanityImage;
+    rightPhoto?: SanityImage;
   };
   contactSection?: {
     headline?: LocaleString;
@@ -159,10 +165,12 @@ export type Homepage = {
     formHeading?: LocaleString;
     consentText?: LocaleString;
     submitLabel?: LocaleString;
+    portraitImage?: SanityImage;
   };
   supportSection?: {
     heading?: LocaleString;
     body?: LocaleString;
+    panelImage?: SanityImage;
     cta?: Cta;
   };
   faqSection?: {

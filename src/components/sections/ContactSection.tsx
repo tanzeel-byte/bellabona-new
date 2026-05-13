@@ -2,6 +2,7 @@ import Image from "next/image";
 
 import { Container } from "@/components/ui/Container";
 import { FIGMA_IMAGES } from "@/lib/figma/assets";
+import { sanityImageUrl } from "@/lib/sanity-image";
 import { pickLocale, type Locale } from "@/lib/i18n";
 import type { Homepage } from "@/types/sanity";
 
@@ -54,6 +55,10 @@ export function ContactSection({ section, locale }: Props) {
   const consentText = pickLocale(section.consentText, locale);
   const submitLabel = pickLocale(section.submitLabel, locale);
   const formCopy = FORM_COPY[locale];
+  const portraitSrc =
+    sanityImageUrl(section.portraitImage, 900) ?? FIGMA_IMAGES.contactPortrait;
+  const portraitAlt =
+    pickLocale(section.portraitImage?.alt, locale) ?? "";
 
   if (!headline && !body && !formHeading) return null;
 
@@ -84,8 +89,8 @@ export function ContactSection({ section, locale }: Props) {
                   <div className="relative h-[200px] w-full max-w-[230px] shrink-0 overflow-clip rounded-[18.831px] bg-[#f9ffe9] sm:h-[205px] sm:w-[230px]">
                     <div className="absolute left-[-5.17px] top-[-22.36px] h-[345px] w-[240px]">
                       <Image
-                        alt=""
-                        src={FIGMA_IMAGES.contactPortrait}
+                        alt={portraitAlt}
+                        src={portraitSrc}
                         width={1024}
                         height={1024}
                         className="pointer-events-none absolute inset-0 size-full max-w-none object-cover"

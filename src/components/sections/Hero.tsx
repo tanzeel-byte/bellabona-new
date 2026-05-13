@@ -6,6 +6,7 @@ import { PortableText } from "@portabletext/react";
 import { AppStoreBadge, GoogleReviewsBadge } from "@/components/figma/AppStoreBadge";
 import { Container } from "@/components/ui/Container";
 import { FIGMA_IMAGES } from "@/lib/figma/assets";
+import { sanityImageUrl } from "@/lib/sanity-image";
 import svgPaths from "@/lib/figma/svg-paths";
 import { pickLocale, type Locale } from "@/lib/i18n";
 import type { FoodLabel, Homepage } from "@/types/sanity";
@@ -34,6 +35,7 @@ export function Hero({ hero, locale }: Props) {
   const headline = pickLocale(hero.headline, locale);
   const subheadline = pickLocale(hero.subheadline, locale);
   const imageAlt = pickLocale(hero.image?.alt, locale) ?? headline ?? "";
+  const heroImageSrc = sanityImageUrl(hero.image, 2400) ?? FIGMA_IMAGES.hero;
 
   return (
     <section aria-labelledby="hero-heading" className="bg-white">
@@ -73,7 +75,7 @@ export function Hero({ hero, locale }: Props) {
               <div className="absolute left-1/2 top-[-6%] h-[112%] w-[104%] -translate-x-1/2 xl:top-[-10%] xl:h-[120%] xl:w-full">
                 <Image
                   alt={imageAlt}
-                  src={FIGMA_IMAGES.hero}
+                  src={heroImageSrc}
                   fill
                   priority
                   sizes="(min-width: 1280px) 50vw, 100vw"
@@ -86,7 +88,7 @@ export function Hero({ hero, locale }: Props) {
               )}
             </div>
 
-            {hero.appBadges && <AppBadgesRow badges={hero.appBadges} />}
+            {hero.appBadges && <AppBadgesRow badges={hero.appBadges} locale={locale} />}
           </div>
         </div>
       </Container>
@@ -196,13 +198,20 @@ function HeartReactionIcon({ className }: { className?: string }) {
 
 function AppBadgesRow({
   badges,
+  locale,
 }: {
   badges: NonNullable<Homepage["hero"]>["appBadges"];
+  locale: Locale;
 }) {
   if (!badges) return null;
   const { playStoreUrl, appStoreUrl, googleReviewUrl } = badges;
   const hasAny = !!playStoreUrl || !!appStoreUrl || !!googleReviewUrl;
   if (!hasAny) return null;
+
+  const playBadgeSrc =
+    sanityImageUrl(badges.playStoreBadgeImage, 420) ?? FIGMA_IMAGES.googlePlayBadge;
+  const playBadgeAlt =
+    pickLocale(badges.playStoreBadgeImage?.alt, locale) ?? "Get it on Google Play";
 
   return (
     <div className="flex w-full items-center justify-center gap-[6px] sm:gap-2 xl:absolute xl:left-[calc(50%-0.33px)] xl:top-[612px] xl:w-auto xl:-translate-x-1/2 xl:gap-[16.659px] xl:px-4">
@@ -214,8 +223,8 @@ function AppBadgesRow({
           className="flex h-8 shrink-0 items-center justify-center transition-transform hover:scale-[1.02] sm:h-9 md:max-w-none xl:h-[59.971px] xl:w-[202.403px]"
         >
           <Image
-            alt="Get it on Google Play"
-            src={FIGMA_IMAGES.googlePlayBadge}
+            alt={playBadgeAlt}
+            src={playBadgeSrc}
             width={202}
             height={60}
             className="pointer-events-none block h-full w-auto max-w-[96px] object-contain sm:max-w-[110px] md:max-w-[118px] xl:h-full xl:w-full xl:max-w-none xl:object-contain"

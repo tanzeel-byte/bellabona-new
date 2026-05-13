@@ -4,6 +4,7 @@ import type { Route } from "next";
 
 import { Container } from "@/components/ui/Container";
 import { FIGMA_IMAGES } from "@/lib/figma/assets";
+import { sanityImageUrl } from "@/lib/sanity-image";
 import svgPaths from "@/lib/figma/svg-paths";
 import { pickLocale, type Locale } from "@/lib/i18n";
 import type { Homepage } from "@/types/sanity";
@@ -21,6 +22,9 @@ export function TaxCtaSection({ section, locale }: Props) {
   const dishPrice = pickLocale(section.salePrice, locale);
   const dishOriginalPrice = pickLocale(section.listPrice, locale);
   const savingsLabel = pickLocale(section.savingsLabel, locale);
+  const dishPhotoSrc =
+    sanityImageUrl(section.dishImage, 900) ?? FIGMA_IMAGES.dish5b;
+  const dishPhotoAlt = pickLocale(section.dishImage?.alt, locale) ?? "";
 
   if (!headline && !(ctaLabel && ctaHref)) return null;
 
@@ -56,8 +60,8 @@ export function TaxCtaSection({ section, locale }: Props) {
                     <div className="flex-none rotate-[-37.68deg]">
                       <div className="relative h-[472.354px] w-[470.856px]">
                         <Image
-                          alt=""
-                          src={FIGMA_IMAGES.dish5b}
+                          alt={dishPhotoAlt}
+                          src={dishPhotoSrc}
                           width={1024}
                           height={1024}
                           className="pointer-events-none absolute inset-0 size-full max-w-none object-cover"

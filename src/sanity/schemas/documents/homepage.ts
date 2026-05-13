@@ -188,6 +188,15 @@ export const homepage = defineType({
         defineField({ name: "salePrice", title: "Sale price", type: "localeString" }),
         defineField({ name: "listPrice", title: "List price", type: "localeString" }),
         defineField({ name: "savingsLabel", title: "Savings label", type: "localeString" }),
+        defineField({
+          name: "dishImage",
+          title: "Dish photo (card)",
+          type: "image",
+          options: { hotspot: true },
+          fields: [
+            defineField({ name: "alt", title: "Alt text", type: "localeString" }),
+          ],
+        }),
       ],
     }),
     defineField({
@@ -198,6 +207,26 @@ export const homepage = defineType({
       fields: [
         defineField({ name: "headingLine1", title: "Heading line 1", type: "localeString" }),
         defineField({ name: "headingLine2", title: "Heading line 2", type: "localeString" }),
+        defineField({
+          name: "deliveryPhoto",
+          title: "Step 2 — delivery / map photo",
+          type: "image",
+          description: "Background photo for the middle step visual (delivery scene).",
+          options: { hotspot: true },
+          fields: [
+            defineField({ name: "alt", title: "Alt text", type: "localeString" }),
+          ],
+        }),
+        defineField({
+          name: "routeOverlayPhoto",
+          title: "Step 2 — route overlay photo",
+          type: "image",
+          description: "Second layer (route / map graphic) for the middle step visual.",
+          options: { hotspot: true },
+          fields: [
+            defineField({ name: "alt", title: "Alt text", type: "localeString" }),
+          ],
+        }),
         defineField({
           name: "steps",
           title: "Steps",
@@ -234,6 +263,24 @@ export const homepage = defineType({
         defineField({ name: "quote", title: "Quote", type: "localeText" }),
         defineField({ name: "authorName", title: "Author name", type: "localeString" }),
         defineField({ name: "authorRole", title: "Author role", type: "localeString" }),
+        defineField({
+          name: "leftPhoto",
+          title: "Left edge photo",
+          type: "image",
+          options: { hotspot: true },
+          fields: [
+            defineField({ name: "alt", title: "Alt text", type: "localeString" }),
+          ],
+        }),
+        defineField({
+          name: "rightPhoto",
+          title: "Right edge photo",
+          type: "image",
+          options: { hotspot: true },
+          fields: [
+            defineField({ name: "alt", title: "Alt text", type: "localeString" }),
+          ],
+        }),
       ],
     }),
     defineField({
@@ -250,6 +297,15 @@ export const homepage = defineType({
         defineField({ name: "formHeading", title: "Form heading", type: "localeString" }),
         defineField({ name: "consentText", title: "Consent text", type: "localeText" }),
         defineField({ name: "submitLabel", title: "Submit label", type: "localeString" }),
+        defineField({
+          name: "portraitImage",
+          title: "Contact portrait",
+          type: "image",
+          options: { hotspot: true },
+          fields: [
+            defineField({ name: "alt", title: "Alt text", type: "localeString" }),
+          ],
+        }),
       ],
     }),
     defineField({
@@ -261,6 +317,15 @@ export const homepage = defineType({
         defineField({ name: "heading", title: "Heading", type: "localeString" }),
         defineField({ name: "body", title: "Body", type: "localeText" }),
         defineField({ name: "cta", title: "CTA", type: "cta" }),
+        defineField({
+          name: "panelImage",
+          title: "Right panel image",
+          type: "image",
+          options: { hotspot: true },
+          fields: [
+            defineField({ name: "alt", title: "Alt text", type: "localeString" }),
+          ],
+        }),
       ],
     }),
     defineField({

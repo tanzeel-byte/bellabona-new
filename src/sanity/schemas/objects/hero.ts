@@ -149,6 +149,21 @@ export const hero = defineType({
           type: "string",
           initialValue: "/5",
         }),
+        defineField({
+          name: "playStoreBadgeImage",
+          title: "Google Play badge image",
+          type: "image",
+          description:
+            "Optional raster badge. If empty, the site falls back to the default Play badge graphic.",
+          options: { hotspot: false },
+          fields: [
+            defineField({
+              name: "alt",
+              title: "Alt text",
+              type: "localeString",
+            }),
+          ],
+        }),
       ],
     }),
   ],

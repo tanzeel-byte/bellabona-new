@@ -4,9 +4,10 @@ import type { Route } from "next";
 
 import { Container } from "@/components/ui/Container";
 import { FIGMA_IMAGES } from "@/lib/figma/assets";
+import { sanityImageUrl } from "@/lib/sanity-image";
 import svgPaths from "@/lib/figma/svg-paths";
 import { pickLocale, type Locale } from "@/lib/i18n";
-import type { Homepage } from "@/types/sanity";
+import type { Homepage, SanityImage } from "@/types/sanity";
 
 type Props = {
   section: NonNullable<Homepage["stepsSection"]>;
@@ -53,7 +54,12 @@ export function StepsSection({ section, locale }: Props) {
                   key={`${step.title ?? "step"}-${index}`}
                   className="mx-auto flex w-full max-w-[474px] flex-col gap-8 lg:max-w-[406px] xl:max-w-[474px]"
                 >
-                  <StepVisual index={index} locale={locale} />
+                  <StepVisual
+                    index={index}
+                    locale={locale}
+                    deliveryPhoto={section.deliveryPhoto}
+                    routeOverlayPhoto={section.routeOverlayPhoto}
+                  />
                   {step.stepLabel && (
                     <div className="inline-flex h-9 w-fit items-center justify-center rounded-full bg-[#e6ffa9] px-6 text-sm tracking-[0.14px] text-[#1a211e]">
                       {step.stepLabel}
@@ -92,9 +98,26 @@ export function StepsSection({ section, locale }: Props) {
   );
 }
 
-function StepVisual({ index, locale }: { index: number; locale: Locale }) {
+function StepVisual({
+  index,
+  locale,
+  deliveryPhoto,
+  routeOverlayPhoto,
+}: {
+  index: number;
+  locale: Locale;
+  deliveryPhoto?: SanityImage;
+  routeOverlayPhoto?: SanityImage;
+}) {
   if (index === 0) return <StepOneVisual />;
-  if (index === 1) return <StepTwoVisual locale={locale} />;
+  if (index === 1)
+    return (
+      <StepTwoVisual
+        locale={locale}
+        deliveryPhoto={deliveryPhoto}
+        routeOverlayPhoto={routeOverlayPhoto}
+      />
+    );
   return <StepThreeVisual />;
 }
 
@@ -180,15 +203,28 @@ function StepOneVisual() {
   );
 }
 
-function StepTwoVisual({ locale }: { locale: Locale }) {
+function StepTwoVisual({
+  locale,
+  deliveryPhoto,
+  routeOverlayPhoto,
+}: {
+  locale: Locale;
+  deliveryPhoto?: SanityImage;
+  routeOverlayPhoto?: SanityImage;
+}) {
   const statusText =
     locale === "de" ? "Team-Lunch ist unterwegs" : "Team lunch is on the way";
+
+  const deliverySrc =
+    sanityImageUrl(deliveryPhoto, 1200) ?? FIGMA_IMAGES.stepsDelivery;
+  const routeSrc =
+    sanityImageUrl(routeOverlayPhoto, 1200) ?? FIGMA_IMAGES.stepsRoute;
 
   return (
     <div className="relative h-[360px] w-full overflow-hidden rounded-[16px] bg-[#f2f0ee] sm:h-[392px] md:h-[416px] lg:h-[486px]">
       <div className="absolute -left-2 -top-[28px] h-[405px] w-[405px] sm:-top-[31px] sm:h-[430px] sm:w-[430px] md:-top-[34px] md:h-[451px] md:w-[451px] lg:left-0 lg:top-0 lg:h-[486px] lg:w-[486px]">
         <Image
-          src={FIGMA_IMAGES.stepsDelivery}
+          src={deliverySrc}
           alt=""
           fill
           sizes="(min-width: 1280px) 486px, 451px"
@@ -198,7 +234,7 @@ function StepTwoVisual({ locale }: { locale: Locale }) {
       <div className="absolute left-0 top-1/2 flex h-[386px] w-[386px] -translate-y-1/2 items-center justify-center sm:h-[410px] sm:w-[410px] md:h-[430px] md:w-[430px] lg:h-[486px] lg:w-[486px]">
         <div className="relative h-full w-full rotate-180 -scale-y-100">
           <Image
-            src={FIGMA_IMAGES.stepsRoute}
+            src={routeSrc}
             alt=""
             fill
             sizes="(min-width: 1280px) 486px, 430px"

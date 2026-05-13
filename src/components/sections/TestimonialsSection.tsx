@@ -1,6 +1,7 @@
 import Image from "next/image";
 
 import { FIGMA_IMAGES } from "@/lib/figma/assets";
+import { sanityImageUrl } from "@/lib/sanity-image";
 import { pickLocale, type Locale } from "@/lib/i18n";
 import type { Homepage } from "@/types/sanity";
 
@@ -14,6 +15,13 @@ export function TestimonialsSection({ section, locale }: Props) {
   const quote = pickLocale(section.quote, locale);
   const authorName = pickLocale(section.authorName, locale);
   const authorRole = pickLocale(section.authorRole, locale);
+
+  const leftSrc =
+    sanityImageUrl(section.leftPhoto, 900) ?? FIGMA_IMAGES.testimonialLeft;
+  const rightSrc =
+    sanityImageUrl(section.rightPhoto, 900) ?? FIGMA_IMAGES.testimonialRight;
+  const leftAlt = pickLocale(section.leftPhoto?.alt, locale) ?? "";
+  const rightAlt = pickLocale(section.rightPhoto?.alt, locale) ?? "";
 
   if (!heading && !quote) return null;
 
@@ -40,7 +48,8 @@ export function TestimonialsSection({ section, locale }: Props) {
 
         <div className="reveal flex w-full shrink-0 items-center justify-center gap-3 overflow-hidden lg:gap-6 lg:overflow-visible">
           <TestimonialPhoto
-            src={FIGMA_IMAGES.testimonialLeft}
+            src={leftSrc}
+            alt={leftAlt}
             containerClassName="relative h-[210px] w-[56px] shrink-0 rounded-[30px] lg:mx-auto lg:size-[400px] lg:max-w-full"
             imageClassName="left-[-104px] top-0 h-full w-[210px] lg:left-[-10.62%] lg:top-[-10.63%] lg:size-[132.38%]"
           />
@@ -68,7 +77,8 @@ export function TestimonialsSection({ section, locale }: Props) {
             )}
           </figure>
           <TestimonialPhoto
-            src={FIGMA_IMAGES.testimonialRight}
+            src={rightSrc}
+            alt={rightAlt}
             containerClassName="relative h-[210px] w-[56px] shrink-0 rounded-[30px] lg:mx-auto lg:size-[400px] lg:max-w-full"
             imageClassName="left-[-57px] top-0 h-full w-[158px] lg:left-[-64.25%] lg:top-[-70.52%] lg:h-[208.45%] lg:w-[164.25%]"
           />
@@ -80,20 +90,22 @@ export function TestimonialsSection({ section, locale }: Props) {
 
 function TestimonialPhoto({
   src,
+  alt,
   imageClassName,
   containerClassName,
 }: {
   src: string;
+  alt: string;
   imageClassName: string;
   containerClassName?: string;
 }) {
   return (
     <div className={containerClassName ?? "relative mx-auto size-[400px] max-w-full shrink-0 rounded-[30px]"}>
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0 rounded-[30px]">
+      <div className="pointer-events-none absolute inset-0 rounded-[30px]">
         <div className="absolute inset-0 rounded-[30px] bg-[#10022c]" />
         <div className="absolute inset-0 overflow-hidden rounded-[30px]">
           <Image
-            alt=""
+            alt={alt}
             src={src}
             width={1024}
             height={1024}

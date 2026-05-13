@@ -47,7 +47,8 @@ export const HOMEPAGE_QUERY = groq`
         appStoreUrl,
         googleReviewUrl,
         googleRatingValue,
-        googleRatingScale
+        googleRatingScale,
+        playStoreBadgeImage${imageProjection}
       }
     },
     logoBar{
@@ -78,11 +79,14 @@ export const HOMEPAGE_QUERY = groq`
       salePrice,
       listPrice,
       savingsLabel,
+      dishImage${imageProjection},
       cta${ctaProjection}
     },
     stepsSection{
       headingLine1,
       headingLine2,
+      deliveryPhoto${imageProjection},
+      routeOverlayPhoto${imageProjection},
       steps[]{ stepLabel, title, body },
       cta${ctaProjection}
     },
@@ -100,7 +104,9 @@ export const HOMEPAGE_QUERY = groq`
       heading,
       quote,
       authorName,
-      authorRole
+      authorRole,
+      leftPhoto${imageProjection},
+      rightPhoto${imageProjection}
     },
     contactSection{
       headline,
@@ -110,11 +116,13 @@ export const HOMEPAGE_QUERY = groq`
       contactPhone,
       formHeading,
       consentText,
-      submitLabel
+      submitLabel,
+      portraitImage${imageProjection}
     },
     supportSection{
       heading,
       body,
+      panelImage${imageProjection},
       cta${ctaProjection}
     },
     faqSection{

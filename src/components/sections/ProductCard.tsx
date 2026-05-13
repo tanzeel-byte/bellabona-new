@@ -1,102 +1,140 @@
 import Image from "next/image";
 
+import { FIGMA_IMAGES } from "@/lib/figma/assets";
+import svgPaths from "@/lib/figma/svg-paths";
 import { pickLocale, type Locale } from "@/lib/i18n";
-import { lqipFor, urlFor } from "@/sanity/lib/image";
 import type { ProductCard as ProductCardType } from "@/types/sanity";
 
 type Props = {
   card: ProductCardType;
   locale: Locale;
+  index?: number;
 };
 
-/**
- * Single meal card from the Products frame.
- *
- * Pixel anchors from the source SVG:
- *   - Card: 405×531, 20px radius, white surface
- *   - Image well: 373×373, 16px radius, fill #F9FEEC
- *   - Tag pill: white fill, 1.15px border at #102848 / 9% opacity
- */
-export function ProductCard({ card, locale }: Props) {
+export function ProductCard({ card, locale, index = 0 }: Props) {
   const tag = pickLocale(card.tag, locale);
   const title = pickLocale(card.title, locale);
-  const imageSrc = card.image?.asset ? urlFor(card.image).width(800).height(800).url() : null;
+  const mealSrc = FIGMA_IMAGES.meals[index % FIGMA_IMAGES.meals.length];
   const imageAlt = pickLocale(card.image?.alt, locale) ?? title ?? "";
-  const lqip = lqipFor(card.image);
-  const imgWidth = card.image?.asset?.metadata?.dimensions?.width ?? 800;
-  const imgHeight = card.image?.asset?.metadata?.dimensions?.height ?? 800;
   const reviewsLabel = locale === "de" ? "Bewertungen" : "reviews";
+  const splitRatingStyle = index >= 3;
 
-  if (!title && !imageSrc) return null;
+  if (!title && !mealSrc) return null;
 
   return (
-    <article className="flex h-full min-h-[531px] flex-col rounded-[20px] bg-white p-4">
-      {tag && (
-        <div className="inline-flex w-fit max-w-full items-center gap-2 rounded-full border border-[#102848]/[0.09] bg-white px-4 py-3 text-sm leading-none text-[#1A211E]">
-          <span className="truncate">{tag}</span>
-          <TagDismissIcon className="h-4 w-4 shrink-0 text-[#4A545E]" />
+    <article className="flex w-[350px] sm:w-[405px] max-w-full shrink-0 flex-col gap-[32px] rounded-[20px] bg-white px-4 pb-8 pt-4">
+      <div className="relative h-[373px] w-full shrink-0 overflow-clip rounded-[16px] bg-[#f9feec]">
+        <div className="pointer-events-none absolute left-[calc(50%-0.11px)] top-[calc(50%+114.1px)] z-0 flex h-[597.367px] w-[601.733px] -translate-x-1/2 -translate-y-1/2 items-center justify-center">
+          <div className="rotate-[58.67deg]">
+            <div className="relative h-[442.84px] w-[429.78px]">
+              <Image
+                src={FIGMA_IMAGES.dishPlate}
+                alt=""
+                fill
+                sizes="430px"
+                className="pointer-events-none object-cover"
+                aria-hidden
+              />
+            </div>
+          </div>
         </div>
-      )}
 
-      {imageSrc && (
-        <div className="relative mt-3 aspect-square w-full overflow-hidden rounded-[16px] bg-[#F9FEEC]">
-          <Image
-            src={imageSrc}
-            alt={imageAlt}
-            width={imgWidth}
-            height={imgHeight}
-            sizes="(min-width: 1024px) 405px, (min-width: 768px) 33vw, 100vw"
-            placeholder={lqip ? "blur" : "empty"}
-            blurDataURL={lqip}
-            className="h-full w-full object-cover"
-          />
+        <div className="pointer-events-none absolute left-[-51.97px] top-[51.3px] z-[1] flex size-[476.602px] items-center justify-center">
+          <div className="rotate-[1.9deg]">
+            <div className="relative size-[461.564px]">
+              <Image
+                src={mealSrc}
+                alt={imageAlt}
+                fill
+                sizes="(min-width: 1024px) 405px, 100vw"
+                className="pointer-events-none object-cover"
+              />
+            </div>
+          </div>
         </div>
-      )}
 
-      <div className="mt-4 flex flex-1 flex-col justify-end">
+        {tag && <CategoryBadge label={tag} />}
+      </div>
+
+      <div className="flex w-full flex-col gap-2.5">
         {title && (
-          <h3 className="text-[20px] font-semibold leading-[1.3] tracking-[-0.01em] text-black">
+          <h3 className="w-full text-[24px] font-semibold leading-[1.4] tracking-[0.288px] text-black">
             {title}
           </h3>
         )}
 
         {(card.ratingPercent || card.reviewCount) && (
-          <p className="mt-3 flex items-center gap-2 text-sm leading-none text-[#1A211E]">
-            <ThumbsUpIcon className="h-4 w-4 shrink-0" />
-            {card.ratingPercent && <span className="font-medium">{card.ratingPercent}</span>}
-            {card.reviewCount && (
-              <span className="text-[#1A211E]/80">
-                ({card.reviewCount} {reviewsLabel})
-              </span>
+          <div className="flex w-full items-center gap-2.5">
+            <ThumbsUpIcon className="size-[26.5px] shrink-0" />
+            {splitRatingStyle ? (
+              <p className="whitespace-nowrap text-[0px] font-normal leading-none tracking-[0.288px] text-[#1a211e]">
+                {card.ratingPercent && (
+                  <span className="text-[24px] leading-[1.4]">{card.ratingPercent}</span>
+                )}
+                {card.reviewCount && (
+                  <>
+                    <span className="text-[20px] leading-[1.5]"> </span>
+                    <span className="text-[20px] leading-[1.5] text-[#a9a9a9]">
+                      ({card.reviewCount} {reviewsLabel})
+                    </span>
+                  </>
+                )}
+              </p>
+            ) : (
+              <p className="whitespace-nowrap text-[24px] font-normal leading-[1.4] tracking-[0.288px] text-[#1a211e]">
+                {card.ratingPercent}
+                {card.reviewCount && ` (${card.reviewCount} ${reviewsLabel})`}
+              </p>
             )}
-          </p>
+          </div>
         )}
       </div>
     </article>
   );
 }
 
+function CategoryBadge({ label }: { label: string }) {
+  return (
+    <div className="absolute left-[12.5px] top-[12.69px] z-10 rounded-[573.256px] bg-white">
+      <div className="relative flex size-full items-center gap-[18.344px] overflow-clip rounded-[inherit] py-2 pl-[22.93px] pr-[9.172px]">
+        <p className="whitespace-nowrap text-[16.051px] font-medium leading-[27.516px] tracking-[0.2293px] text-[#272e35]">
+          {label}
+        </p>
+        <div className="flex h-[36.688px] shrink-0 items-center justify-center overflow-clip rounded-md p-[6.879px]">
+          <div className="relative size-[22.93px] overflow-clip">
+            <div className="absolute inset-1/4">
+              <TagDismissIcon className="size-full text-[#4A545E]" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-[-1.147px] rounded-[574.403px] border-[1.147px] border-solid border-[rgba(16,40,72,0.09)] shadow-[0px_2.293px_2.293px_-1.147px_rgba(27,36,44,0.04),0px_2.293px_9.172px_-1.147px_rgba(27,36,44,0.08)]"
+      />
+    </div>
+  );
+}
+
 function TagDismissIcon({ className }: { className?: string }) {
   return (
-    <svg viewBox="0 0 16 16" aria-hidden="true" className={className} fill="currentColor">
-      <path
-        fillRule="evenodd"
-        clipRule="evenodd"
-        d="M8.138 4.55a.5.5 0 0 1 .707 0L12.3 8.005l3.455 3.455a.5.5 0 1 1-.707.707L11.593 8.712l-3.455 3.455a.5.5 0 0 1-.707-.707L10.886 8.005 7.431 4.55a.5.5 0 0 1 .707 0Z"
-      />
+    <svg viewBox="0 0 11.4651 11.4651" aria-hidden="true" className={className} fill="currentColor">
+      <path clipRule="evenodd" d={svgPaths.p1b8b0f00} fillRule="evenodd" />
     </svg>
   );
 }
 
 function ThumbsUpIcon({ className }: { className?: string }) {
   return (
-    <svg viewBox="0 0 16 16" aria-hidden="true" className={className} fill="none">
-      <path
-        d="M4.75 6.5V13.25H2.75C2.336 13.25 2 12.914 2 12.5V7.25C2 6.836 2.336 6.5 2.75 6.5H4.75ZM5.75 6.5L7.55 2.86C7.82 2.32 8.37 2 8.95 2C9.78 2 10.45 2.67 10.45 3.5V6H12.75C13.72 6 14.5 6.78 14.5 7.75C14.5 7.92 14.48 8.09 14.44 8.25L13.19 12.25C12.97 13.02 12.26 13.55 11.46 13.55H6.25C5.836 13.55 5.5 13.214 5.5 12.8V6.5H5.75Z"
-        stroke="currentColor"
-        strokeWidth="1.2"
-        strokeLinejoin="round"
-      />
+    <svg viewBox="0 0 26.5 26.5" aria-hidden="true" className={className} fill="none">
+      <g clipPath="url(#product-card-thumb-clip)">
+        <path d={svgPaths.p11f80} fill="black" />
+      </g>
+      <defs>
+        <clipPath id="product-card-thumb-clip">
+          <rect fill="white" height="26.5" width="26.5" />
+        </clipPath>
+      </defs>
     </svg>
   );
 }

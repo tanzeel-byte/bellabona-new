@@ -1,5 +1,6 @@
 import Image from "next/image";
 
+import { AtollsLogo, IfcoLogo } from "@/components/figma/TrustLogos";
 import { Container } from "@/components/ui/Container";
 import { pickLocale, type Locale } from "@/lib/i18n";
 import { urlFor } from "@/sanity/lib/image";
@@ -10,15 +11,6 @@ type Props = {
   locale: Locale;
 };
 
-/**
- * Social proof / logo bar — Figma "Light" frame (1440×207 export).
- *
- * Pixel anchors from the source SVG:
- *   - White band with a single centred row
- *   - Heading: Figtree medium, #1B1B1B
- *   - Partner logos: #A9A9A9, ~34px tall
- *   - ~80px vertical breathing room above/below the row in the full-page slice
- */
 export function LogoBar({ logoBar, locale }: Props) {
   const heading = pickLocale(logoBar.heading, locale);
   const logos = logoBar.logos?.filter((logo) => logo.asset?.url) ?? [];
@@ -28,45 +20,54 @@ export function LogoBar({ logoBar, locale }: Props) {
   return (
     <section
       aria-labelledby={heading ? "logo-bar-heading" : undefined}
-      className="bg-white py-12 md:py-20"
+      className="bg-white py-10 md:px-10 lg:px-20"
     >
-      <Container>
-        <div className="reveal flex flex-col items-center justify-center gap-8 md:flex-row md:gap-16 lg:gap-20">
+      <Container className="max-w-[1440px] px-6 md:px-10 lg:px-20">
+        <div className="reveal flex flex-col items-center justify-center gap-8 lg:flex-row lg:gap-[100px]">
           {heading && (
             <p
               id="logo-bar-heading"
-              className="shrink-0 text-center text-[42px] font-medium leading-[28px] tracking-[-0.01em] text-[#1B1B1B] md:text-left"
+              className="shrink-0 text-center text-[32px] font-normal leading-none tracking-[-0.8px] text-[#1b1b1b] sm:text-[40px] lg:text-right"
             >
               {heading}
             </p>
           )}
 
-          {logos.length > 0 && (
-            <ul
-              className="flex flex-wrap items-center justify-center gap-10 md:gap-12 lg:gap-16"
-              aria-label={heading ?? "Partner logos"}
-            >
-              {logos.map((logo, index) => {
-                const alt = pickLocale(logo.alt, locale) ?? "";
-                const src = urlFor(logo).height(68).url();
-                const width = logo.asset.metadata?.dimensions?.width ?? 160;
-                const height = logo.asset.metadata?.dimensions?.height ?? 34;
+          <ul
+            className="flex flex-wrap items-center justify-center gap-12 lg:gap-24"
+            aria-label={heading ?? "Partner logos"}
+          >
+            {logos.length > 0
+              ? logos.map((logo, index) => {
+                  const alt = pickLocale(logo.alt, locale) ?? "";
+                  const src = urlFor(logo).height(92).url();
+                  const width = logo.asset.metadata?.dimensions?.width ?? 191;
+                  const height = logo.asset.metadata?.dimensions?.height ?? 46;
 
-                return (
-                  <li key={`${logo.asset._id}-${index}`}>
-                    <Image
-                      src={src}
-                      alt={alt}
-                      width={width}
-                      height={height}
-                      sizes="(min-width: 768px) 160px, 120px"
-                      className="h-[34px] w-auto max-w-[186px] object-contain object-center"
-                    />
+                  return (
+                    <li key={`${logo.asset._id}-${index}`}>
+                      <Image
+                        src={src}
+                        alt={alt}
+                        width={width}
+                        height={height}
+                        sizes="(min-width: 1024px) 191px, 140px"
+                        className="h-[34px] w-auto max-w-[191px] object-contain object-center"
+                      />
+                    </li>
+                  );
+                })
+              : (
+                <>
+                  <li>
+                    <IfcoLogo />
                   </li>
-                );
-              })}
-            </ul>
-          )}
+                  <li>
+                    <AtollsLogo />
+                  </li>
+                </>
+              )}
+          </ul>
         </div>
       </Container>
     </section>

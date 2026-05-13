@@ -1,10 +1,18 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
+import { ContactSection } from "@/components/sections/ContactSection";
+import { CultureSection } from "@/components/sections/CultureSection";
+import { FaqSection } from "@/components/sections/FaqSection";
 import { Hero } from "@/components/sections/Hero";
 import { LogoBar } from "@/components/sections/LogoBar";
+import { PricingSection } from "@/components/sections/PricingSection";
 import { ProductsSection } from "@/components/sections/ProductsSection";
 import { StatsSection } from "@/components/sections/StatsSection";
+import { StepsSection } from "@/components/sections/StepsSection";
+import { SupportSection } from "@/components/sections/SupportSection";
+import { TaxCtaSection } from "@/components/sections/TaxCtaSection";
+import { TestimonialsSection } from "@/components/sections/TestimonialsSection";
 import { isLocale } from "@/lib/i18n";
 import { buildMetadata } from "@/lib/metadata";
 import { getHomepage } from "@/sanity/lib/fetch";
@@ -78,6 +86,30 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
       )}
       {homepage.productsSection && (
         <ProductsSection products={homepage.productsSection} locale={locale} />
+      )}
+      {homepage.cultureSection && (
+        <CultureSection section={homepage.cultureSection} locale={locale} />
+      )}
+      {homepage.taxCtaSection && (
+        <TaxCtaSection section={homepage.taxCtaSection} locale={locale} />
+      )}
+      {homepage.stepsSection && (
+        <StepsSection section={homepage.stepsSection} locale={locale} />
+      )}
+      {homepage.pricingSection && (
+        <PricingSection section={homepage.pricingSection} locale={locale} />
+      )}
+      {homepage.testimonialsSection && (
+        <TestimonialsSection section={homepage.testimonialsSection} locale={locale} />
+      )}
+      {homepage.contactSection && (
+        <ContactSection section={homepage.contactSection} locale={locale} />
+      )}
+      {homepage.supportSection && (
+        <SupportSection section={homepage.supportSection} locale={locale} />
+      )}
+      {homepage.faqSection && (
+        <FaqSection section={homepage.faqSection} locale={locale} />
       )}
     </>
   );

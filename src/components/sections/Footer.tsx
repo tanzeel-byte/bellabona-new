@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Route } from "next";
 
+import { FooterWordmark } from "@/components/brand/FooterWordmark";
 import { Container } from "@/components/ui/Container";
 import { PLATFORM_LABELS, SocialIcon } from "@/components/ui/SocialIcon";
 import { pickLocale, type Locale } from "@/lib/i18n";
@@ -134,12 +135,7 @@ export function Footer({ settings, locale }: Props) {
         </div>
 
         {/* Oversized wordmark — bleeds the brand into the bottom edge. */}
-        <div
-          aria-hidden="true"
-          className="mt-16 select-none overflow-hidden font-bold leading-none tracking-tight text-[var(--color-brand-accent)] text-[20vw] md:mt-24 md:text-[16vw]"
-        >
-          BELLA&amp;BONA
-        </div>
+        <FooterWordmark />
 
         {/* Separator + copyright + legal links */}
         <div className="mt-10 border-t border-white/15 pt-6">

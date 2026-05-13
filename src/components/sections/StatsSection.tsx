@@ -7,15 +7,6 @@ type Props = {
   locale: Locale;
 };
 
-/**
- * Stats section — Figma "Stats section" frame (1440×476 export).
- *
- * Pixel anchors from the source SVG:
- *   - Three equal cards in a row with 30px gutters inside 80px page padding
- *   - Card: 406×316, 16px radius, fill #F8F7F6
- *   - Value: #1A211E, display weight, anchored to the top of the card
- *   - Label: black body copy, anchored to the bottom of the card
- */
 export function StatsSection({ stats, locale }: Props) {
   const items = stats
     .map((stat) => ({
@@ -27,28 +18,29 @@ export function StatsSection({ stats, locale }: Props) {
   if (items.length === 0) return null;
 
   return (
-    <section aria-labelledby="stats-heading" className="bg-white pb-20 md:pb-20">
+    <section aria-labelledby="stats-heading" className="bg-white py-10 md:px-10 lg:px-20">
       <h2 id="stats-heading" className="sr-only">
         Key results
       </h2>
-      <Container>
-        <dl className="reveal grid grid-cols-1 gap-[30px] md:grid-cols-3">
+      <Container className="max-w-[1440px] px-6 py-5 md:px-10">
+        <dl className="reveal grid grid-cols-1 gap-[30px] lg:grid-cols-3">
           {items.map((stat, index) => (
             <div
               key={`${stat.value ?? "stat"}-${index}`}
-              className="flex min-h-[316px] flex-col justify-between rounded-[16px] bg-[#F8F7F6] px-9 py-10 sm:px-10"
+              className="flex h-[316px] flex-col items-center justify-center rounded-[16px] bg-[#f8f7f6] px-10 py-[30px]"
             >
-              {stat.value && (
-                <dt
-                  className="text-[56px] font-normal leading-[1.05] tracking-[-0.01em] text-[#1A211E] sm:text-[64px] lg:text-[68px]"
-                  style={{ fontFamily: "var(--font-display)" }}
-                >
-                  {stat.value}
-                </dt>
-              )}
-              {stat.label && (
-                <dd className="text-base leading-[1.5] text-black">{stat.label}</dd>
-              )}
+              <div className="flex h-[245px] w-full max-w-[340px] flex-col justify-between">
+                {stat.value && (
+                  <dt className="text-[72px] font-medium leading-[0.95] tracking-[-2.82px] text-[#1a211e] lg:text-[92px]">
+                    {stat.value}
+                  </dt>
+                )}
+                {stat.label && (
+                  <dd className="whitespace-pre-wrap text-[20px] font-normal leading-[1.5] text-black lg:text-[24px]">
+                    {stat.label}
+                  </dd>
+                )}
+              </div>
             </div>
           ))}
         </dl>

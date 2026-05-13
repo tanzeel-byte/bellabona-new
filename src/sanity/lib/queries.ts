@@ -77,6 +77,61 @@ export const HOMEPAGE_QUERY = groq`
       },
       cta${ctaProjection}
     },
+    cultureSection{
+      heading,
+      stats[]{ value, title, body },
+      timeline[]{ title, body },
+      image${imageProjection}
+    },
+    taxCtaSection{
+      headline,
+      dishName,
+      salePrice,
+      listPrice,
+      savingsLabel,
+      cta${ctaProjection}
+    },
+    stepsSection{
+      headingLine1,
+      headingLine2,
+      steps[]{ stepLabel, title, body },
+      cta${ctaProjection}
+    },
+    pricingSection{
+      heading,
+      daysQuestion,
+      employeesQuestion,
+      subsidyQuestion,
+      emailPrompt,
+      employeeResult{ heading, value, caption, note },
+      companyResult{ heading, value, caption, note },
+      cta${ctaProjection}
+    },
+    testimonialsSection{
+      heading,
+      quote,
+      authorName,
+      authorRole
+    },
+    contactSection{
+      headline,
+      body,
+      contactName,
+      contactEmail,
+      contactPhone,
+      formHeading,
+      consentText,
+      submitLabel
+    },
+    supportSection{
+      heading,
+      body,
+      cta${ctaProjection}
+    },
+    faqSection{
+      heading,
+      items[]{ question, answer }
+    },
     finalCta{
       headline,
       body,

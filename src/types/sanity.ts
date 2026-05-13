@@ -112,6 +112,75 @@ export type Homepage = {
     items?: ProductCard[];
     cta?: Cta;
   };
+  cultureSection?: {
+    heading?: LocaleString;
+    stats?: Array<{
+      value?: LocaleString;
+      title?: LocaleString;
+      body?: LocaleString;
+    }>;
+    timeline?: Array<{
+      title?: LocaleString;
+      body?: LocaleString;
+    }>;
+    image?: SanityImage;
+  };
+  taxCtaSection?: {
+    headline?: LocaleString;
+    cta?: Cta;
+    dishName?: LocaleString;
+    salePrice?: LocaleString;
+    listPrice?: LocaleString;
+    savingsLabel?: LocaleString;
+  };
+  stepsSection?: {
+    headingLine1?: LocaleString;
+    headingLine2?: LocaleString;
+    steps?: Array<{
+      stepLabel?: LocaleString;
+      title?: LocaleString;
+      body?: LocaleString;
+    }>;
+    cta?: Cta;
+  };
+  pricingSection?: {
+    heading?: LocaleString;
+    daysQuestion?: LocaleString;
+    employeesQuestion?: LocaleString;
+    subsidyQuestion?: LocaleString;
+    emailPrompt?: LocaleString;
+    employeeResult?: PricingResultCard;
+    companyResult?: PricingResultCard;
+    cta?: Cta;
+  };
+  testimonialsSection?: {
+    heading?: LocaleString;
+    quote?: LocaleString;
+    authorName?: LocaleString;
+    authorRole?: LocaleString;
+  };
+  contactSection?: {
+    headline?: LocaleString;
+    body?: LocaleString;
+    contactName?: LocaleString;
+    contactEmail?: LocaleString;
+    contactPhone?: LocaleString;
+    formHeading?: LocaleString;
+    consentText?: LocaleString;
+    submitLabel?: LocaleString;
+  };
+  supportSection?: {
+    heading?: LocaleString;
+    body?: LocaleString;
+    cta?: Cta;
+  };
+  faqSection?: {
+    heading?: LocaleString;
+    items?: Array<{
+      question?: LocaleString;
+      answer?: LocaleString;
+    }>;
+  };
   features?: {
     eyebrow?: LocaleString;
     heading?: LocaleString;
@@ -139,6 +208,13 @@ export type FeatureItem = {
   icon?: FeatureIcon;
   title?: LocaleString;
   description?: LocaleString;
+};
+
+export type PricingResultCard = {
+  heading?: LocaleString;
+  value?: LocaleString;
+  caption?: LocaleString;
+  note?: LocaleString;
 };
 
 export type SiteSettings = {

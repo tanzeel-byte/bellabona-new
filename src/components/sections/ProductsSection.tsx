@@ -11,63 +11,56 @@ type Props = {
   locale: Locale;
 };
 
-/**
- * Meal options / products section — Figma "Products" frame (1440×1606 export).
- *
- * Pixel anchors from the source SVG:
- *   - Section fill #E6FFA9
- *   - Heading centred in forest green
- *   - 3×2 card grid with 32px gutters and 64px row spacing
- *   - Forest pill CTA below the grid
- */
 export function ProductsSection({ products, locale }: Props) {
   const headingLine1 = pickLocale(products.headingLine1, locale);
   const headingLine2 = pickLocale(products.headingLine2, locale);
   const items = products.items ?? [];
   const ctaLabel = pickLocale(products.cta?.label, locale);
   const ctaHref = products.cta?.href;
+  const heading =
+    headingLine1 && headingLine2
+      ? `${headingLine1} ${headingLine2}`
+      : headingLine1 ?? headingLine2;
 
-  if (!headingLine1 && !headingLine2 && items.length === 0) return null;
+  if (!heading && items.length === 0) return null;
 
   return (
     <section
       aria-labelledby="products-heading"
-      className="bg-[var(--color-brand-accent)] py-16 md:py-20"
+      className="bg-[#e6ffa9] py-20"
     >
-      <Container>
-        {(headingLine1 || headingLine2) && (
-          <div className="reveal mx-auto max-w-[920px] text-center">
+      <Container className="max-w-[1440px] px-5 md:px-10 ">
+        <div className="flex flex-col items-center gap-16">
+          {heading && (
             <h2
               id="products-heading"
-              className="text-[40px] font-normal leading-[1.08] tracking-[-0.02em] text-[var(--color-brand-forest)] sm:text-[48px] lg:text-[56px]"
-              style={{ fontFamily: "var(--font-display)" }}
+              className="reveal max-w-[970px] text-center text-[40px] font-semibold leading-[1.2] text-[#024930] sm:text-[52px] lg:text-[60px]"
             >
-              {headingLine1 && <span className="block">{headingLine1}</span>}
-              {headingLine2 && <span className="block">{headingLine2}</span>}
+              {heading}
             </h2>
-          </div>
-        )}
+          )}
 
-        {items.length > 0 && (
-          <ul className="reveal mt-12 grid grid-cols-1 gap-x-8 gap-y-16 md:mt-16 md:grid-cols-2 lg:grid-cols-3">
-            {items.map((card, index) => (
-              <li key={`${pickLocale(card.title, locale) ?? "meal"}-${index}`}>
-                <ProductCard card={card} locale={locale} />
-              </li>
-            ))}
-          </ul>
-        )}
+          {items.length > 0 && (
+            <ul className="reveal grid w-full grid-cols-1 justify-items-center gap-[32px] lg:grid-cols-3">
+              {items.map((card, index) => (
+                <li key={`${pickLocale(card.title, locale) ?? "meal"}-${index}`}>
+                  <ProductCard card={card} locale={locale} index={index} />
+                </li>
+              ))}
+            </ul>
+          )}
 
-        {ctaLabel && ctaHref && (
-          <div className="reveal mt-16 flex justify-center md:mt-20">
-            <Link
-              href={ctaHref as Route}
-              className="inline-flex h-[47px] items-center justify-center rounded-full bg-[var(--color-brand-forest)] px-8 text-base font-medium text-white transition-colors hover:bg-[var(--color-brand-green)]"
-            >
-              {ctaLabel}
-            </Link>
-          </div>
-        )}
+          {ctaLabel && ctaHref && (
+            <div className="reveal flex h-12 w-full items-center justify-center">
+              <Link
+                href={ctaHref as Route}
+                className="inline-flex h-[47.37px] items-center justify-center rounded-[77.707px] bg-[#024930] px-6 text-lg font-medium tracking-[0.216px] text-white transition-colors hover:bg-[var(--color-brand-green)]"
+              >
+                {ctaLabel}
+              </Link>
+            </div>
+          )}
+        </div>
       </Container>
     </section>
   );

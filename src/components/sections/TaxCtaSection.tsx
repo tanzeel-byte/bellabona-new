@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import type { Route } from "next";
 
@@ -54,9 +55,11 @@ export function TaxCtaSection({ section, locale }: Props) {
                   <div className="absolute left-[-201.81px] top-[-59.74px] flex h-[661.655px] w-[661.385px] items-center justify-center">
                     <div className="flex-none rotate-[-37.68deg]">
                       <div className="relative h-[472.354px] w-[470.856px]">
-                        <img
+                        <Image
                           alt=""
                           src={FIGMA_IMAGES.dish5b}
+                          width={1024}
+                          height={1024}
                           className="pointer-events-none absolute inset-0 size-full max-w-none object-cover"
                         />
                       </div>

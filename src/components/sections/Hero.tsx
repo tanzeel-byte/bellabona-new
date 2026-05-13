@@ -17,16 +17,16 @@ type Props = {
 
 const LABEL_LAYOUT = [
   {
-    className: "left-[34.03px] top-[343px] w-[97.629px]",
-    reactionClassName: "left-[82.03px] top-[368px]",
+    className: "left-[6%] top-[44%] w-[62px] sm:w-[74px] xl:left-[34.03px] xl:top-[343px] xl:w-[97.629px]",
+    reactionClassName: "left-[12%] top-[47%] xl:left-[82.03px] xl:top-[368px]",
   },
   {
-    className: "left-[231.03px] top-[352px] w-[114.631px]",
-    reactionClassName: "left-[290.81px] top-[377px] w-[44.223px]",
+    className: "left-1/2 top-[46%] w-[78px] -translate-x-1/2 sm:w-[88px] xl:left-[231.03px] xl:top-[352px] xl:w-[114.631px] xl:translate-x-0",
+    reactionClassName: "left-[calc(50%+22px)] top-[49%] w-[32px] xl:left-[290.81px] xl:top-[377px] xl:w-[44.223px]",
   },
   {
-    className: "left-[446.03px] top-[397px] w-[115.629px]",
-    reactionClassName: "left-[509.03px] top-[422px]",
+    className: "right-[6%] top-[50%] w-[84px] sm:w-[96px] xl:left-[446.03px] xl:right-auto xl:top-[397px] xl:w-[115.629px]",
+    reactionClassName: "right-[7%] top-[53%] xl:left-[509.03px] xl:right-auto xl:top-[422px]",
   },
 ] as const;
 
@@ -102,7 +102,7 @@ function FoodLabelOverlay({
   locale: Locale;
 }) {
   return (
-    <div aria-hidden="true" className="pointer-events-none absolute inset-0 hidden xl:block">
+    <div aria-hidden="true" className="pointer-events-none absolute inset-0">
       <div className="absolute left-[34.03px] top-[343px] contents">
         {labels.slice(0, LABEL_LAYOUT.length).map((label, index) => {
           const name = pickLocale(label.name, locale);
@@ -111,27 +111,27 @@ function FoodLabelOverlay({
           return (
             <div key={`${name}-${index}`}>
               <div
-                className={`absolute flex flex-col items-start rounded-[33.931px] bg-white py-[6.059px] pl-[6.059px] pr-2 ${layout.className}`}
+                className={`absolute flex flex-col items-start rounded-[33.931px] bg-white py-[3px] pl-[3px] pr-[5px] xl:py-[6.059px] xl:pl-[6.059px] xl:pr-2 ${layout.className}`}
               >
-                <div className="flex w-full items-start gap-[5px]">
+                <div className="flex w-full items-start gap-[2px] xl:gap-[5px]">
                   <FoodLabelIcon accent={label.accent ?? "red"} />
-                  <p className="whitespace-nowrap text-[14.542px] font-medium leading-[1.2] text-black">
+                  <p className="whitespace-nowrap text-[9px] font-medium leading-[1.2] text-black sm:text-[11px] xl:text-[14.542px]">
                     {name}
                   </p>
                 </div>
               </div>
               {label.rating && (
                 <div
-                  className={`absolute flex h-[17px] items-center rounded-[8.02px] bg-white py-[2.713px] pl-[5.897px] pr-[4.177px] ${layout.reactionClassName}`}
+                  className={`absolute flex h-[12px] items-center rounded-[8.02px] bg-white py-[1.5px] pl-[3px] pr-[2px] xl:h-[17px] xl:py-[2.713px] xl:pl-[5.897px] xl:pr-[4.177px] ${layout.reactionClassName}`}
                 >
                   <div
                     aria-hidden="true"
                     className="pointer-events-none absolute inset-[-0.5px] rounded-[8.52px] border-[0.5px] border-solid border-[#e7e7e7]"
                   />
-                  <p className="text-center text-[10.405px] font-semibold leading-[0.9] text-[#070c0f]">
+                  <p className="text-center text-[7px] font-semibold leading-[0.9] text-[#070c0f] xl:text-[10.405px]">
                     {label.ratingType === "heart" ? (
-                      <span className="inline-flex items-center gap-[2.241px]">
-                        <HeartReactionIcon className="h-[9.419px] w-[9.534px]" />
+                      <span className="inline-flex items-center gap-[1px] xl:gap-[2.241px]">
+                        <HeartReactionIcon className="size-[6px] xl:h-[9.419px] xl:w-[9.534px]" />
                         {label.rating}
                       </span>
                     ) : (
@@ -151,8 +151,8 @@ function FoodLabelOverlay({
 function FoodLabelIcon({ accent }: { accent: "red" | "amber" | "green" }) {
   if (accent === "amber") {
     return (
-      <div className="flex size-[17.571px] items-center justify-center rounded-[101.977px] bg-[#fcf5db] p-[3.295px]">
-        <svg viewBox="0 0 12.3103 12.3078" className="h-[12.308px] w-[12.31px]" aria-hidden="true">
+      <div className="flex size-[10px] items-center justify-center rounded-[101.977px] bg-[#fcf5db] p-[1.75px] xl:size-[17.571px] xl:p-[3.295px]">
+        <svg viewBox="0 0 12.3103 12.3078" className="size-[7px] xl:h-[12.308px] xl:w-[12.31px]" aria-hidden="true">
           <path d={svgPaths.p10692a70} fill="#DA9B34" />
           <path d={svgPaths.p13e2de00} fill="#DA9B34" />
           <path d={svgPaths.p2b364f00} fill="#DA9B34" />
@@ -163,7 +163,7 @@ function FoodLabelIcon({ accent }: { accent: "red" | "amber" | "green" }) {
 
   if (accent === "green") {
     return (
-      <svg viewBox="0 0 17.57 17.57" className="size-[17.57px]" aria-hidden="true">
+      <svg viewBox="0 0 17.57 17.57" className="size-[10px] xl:size-[17.57px]" aria-hidden="true">
         <rect fill="#E1FAE7" height="17.57" rx="8.785" width="17.57" />
         <path d={svgPaths.p1b042500} fill="#48BC69" />
       </svg>
@@ -171,8 +171,8 @@ function FoodLabelIcon({ accent }: { accent: "red" | "amber" | "green" }) {
   }
 
   return (
-    <div className="flex size-[17.57px] items-center justify-center rounded-[101.969px] bg-[#fdefee] p-[3.294px]">
-      <svg viewBox="0 0 12.9509 11.3067" className="h-[10.668px] w-[12.312px]" aria-hidden="true">
+    <div className="flex size-[10px] items-center justify-center rounded-[101.969px] bg-[#fdefee] p-[1.75px] xl:size-[17.57px] xl:p-[3.294px]">
+      <svg viewBox="0 0 12.9509 11.3067" className="h-[6.4px] w-[7.4px] xl:h-[10.668px] xl:w-[12.312px]" aria-hidden="true">
         <path
           clipRule="evenodd"
           d={svgPaths.p1aadab00}
@@ -213,9 +213,11 @@ function AppBadgesRow({
           rel="noopener noreferrer"
           className="flex h-8 shrink-0 items-center justify-center transition-transform hover:scale-[1.02] sm:h-9 md:max-w-none xl:h-[59.971px] xl:w-[202.403px]"
         >
-          <img
+          <Image
             alt="Get it on Google Play"
             src={FIGMA_IMAGES.googlePlayBadge}
+            width={202}
+            height={60}
             className="pointer-events-none block h-full w-auto max-w-[96px] object-contain sm:max-w-[110px] md:max-w-[118px] xl:h-full xl:w-full xl:max-w-none xl:object-contain"
           />
         </a>

@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 import { Container } from "@/components/ui/Container";
 import { FIGMA_IMAGES } from "@/lib/figma/assets";
 import { pickLocale, type Locale } from "@/lib/i18n";
@@ -81,9 +83,11 @@ export function ContactSection({ section, locale }: Props) {
                 <div className="reveal flex w-full max-w-[512px] flex-col items-start gap-6 sm:h-[205px] sm:flex-row sm:items-end sm:gap-[25px]">
                   <div className="relative h-[200px] w-full max-w-[230px] shrink-0 overflow-clip rounded-[18.831px] bg-[#f9ffe9] sm:h-[205px] sm:w-[230px]">
                     <div className="absolute left-[-5.17px] top-[-22.36px] h-[345px] w-[240px]">
-                      <img
+                      <Image
                         alt=""
                         src={FIGMA_IMAGES.contactPortrait}
+                        width={1024}
+                        height={1024}
                         className="pointer-events-none absolute inset-0 size-full max-w-none object-cover"
                       />
                     </div>

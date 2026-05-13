@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import type { Route } from "next";
 
@@ -50,9 +51,11 @@ export function SupportSection({ section, locale }: Props) {
 
             <div className="relative w-full max-w-[449px] shrink-0 self-stretch overflow-clip rounded-2xl bg-[#fff0ed] lg:min-h-[280px]">
               <div className="absolute left-[-41px] top-[-67.02px] h-[654px] w-[523px]">
-                <img
+                <Image
                   alt=""
                   src={FIGMA_IMAGES.supportEmail}
+                  width={1024}
+                  height={1024}
                   className="pointer-events-none absolute left-[-38.79%] top-[-2.05%] h-[92.85%] w-[174.06%] max-w-none object-cover"
                 />
               </div>

@@ -51,7 +51,7 @@ export function StepsSection({ section, locale }: Props) {
               {steps.map((step, index) => (
                 <article
                   key={`${step.title ?? "step"}-${index}`}
-                  className="mx-auto flex w-full max-w-[406px] flex-col gap-8"
+                  className="mx-auto flex w-full max-w-[474px] flex-col gap-8 lg:max-w-[406px] xl:max-w-[474px]"
                 >
                   <StepVisual index={index} locale={locale} />
                   {step.stepLabel && (
@@ -100,8 +100,8 @@ function StepVisual({ index, locale }: { index: number; locale: Locale }) {
 
 function StepOneVisual() {
   return (
-    <div className="relative h-[360px] w-full overflow-hidden rounded-[16px] bg-[#f9ffe9] sm:h-[392px] md:h-[416px]">
-      <div className="absolute left-1/2 top-12 -translate-x-1/2 origin-top max-md:scale-[0.9] sm:max-md:scale-95 md:left-[23px] md:top-[57px] md:translate-x-0 md:scale-100">
+    <div className="relative h-[360px] w-full overflow-hidden rounded-[16px] bg-[#f9ffe9] sm:h-[392px] md:h-[416px] lg:h-[486px]">
+      <div className="absolute left-1/2 top-12 -translate-x-1/2 origin-top max-md:scale-[0.9] sm:max-md:scale-95 md:left-[23px] md:top-[57px] md:translate-x-0 md:scale-100 lg:left-[49px] lg:top-[75px]">
         <div className="relative h-[285px] w-[360px]">
         <div className="absolute left-[65px] top-0 h-[170px] w-[276px] overflow-hidden rounded-[14px] bg-white shadow-[-0.8px_-3.2px_8.6px_0px_rgba(0,0,0,0.07)]">
           <div className="absolute left-[23px] top-[11px] flex items-center gap-2.5">
@@ -185,33 +185,33 @@ function StepTwoVisual({ locale }: { locale: Locale }) {
     locale === "de" ? "Team-Lunch ist unterwegs" : "Team lunch is on the way";
 
   return (
-    <div className="relative h-[416px] w-full overflow-hidden rounded-[16px] bg-[#f2f0ee]">
-      <div className="absolute -left-2 -top-[34px] h-[451px] w-[451px]">
+    <div className="relative h-[360px] w-full overflow-hidden rounded-[16px] bg-[#f2f0ee] sm:h-[392px] md:h-[416px] lg:h-[486px]">
+      <div className="absolute -left-2 -top-[28px] h-[405px] w-[405px] sm:-top-[31px] sm:h-[430px] sm:w-[430px] md:-top-[34px] md:h-[451px] md:w-[451px] lg:left-0 lg:top-0 lg:h-[486px] lg:w-[486px]">
         <Image
           src={FIGMA_IMAGES.stepsDelivery}
           alt=""
           fill
-          sizes="451px"
+          sizes="(min-width: 1280px) 486px, 451px"
           className="object-cover"
         />
       </div>
-      <div className="absolute left-0 top-1/2 flex h-[430px] w-[430px] -translate-y-1/2 items-center justify-center">
+      <div className="absolute left-0 top-1/2 flex h-[386px] w-[386px] -translate-y-1/2 items-center justify-center sm:h-[410px] sm:w-[410px] md:h-[430px] md:w-[430px] lg:h-[486px] lg:w-[486px]">
         <div className="relative h-full w-full rotate-180 -scale-y-100">
           <Image
             src={FIGMA_IMAGES.stepsRoute}
             alt=""
             fill
-            sizes="430px"
+            sizes="(min-width: 1280px) 486px, 430px"
             className="object-cover"
           />
         </div>
       </div>
-      <div className="absolute left-1/2 top-[315px] w-[362px] -translate-x-1/2">
-        <div className="relative h-[50px] overflow-hidden rounded-full border border-[#f2e6e3] bg-white">
-          <div className="absolute left-[53px] top-1/2 -translate-y-1/2 text-2xl font-medium leading-[0.9] text-black">
+      <div className="absolute left-1/2 top-[274px] w-[308px] -translate-x-1/2 sm:top-[298px] sm:w-[338px] md:top-[315px] md:w-[362px] lg:top-[350px] lg:w-[385px]">
+        <div className="relative h-[42px] overflow-hidden rounded-full border border-[#f2e6e3] bg-white sm:h-[46px] md:h-[50px]">
+          <div className="absolute left-[53px] top-1/2 -translate-y-1/2 whitespace-nowrap text-[20px] font-medium leading-[0.9] text-black sm:left-[50px] sm:text-[22px] md:left-[53px] md:text-2xl lg:left-[57px] lg:text-[24px]">
             {statusText}
           </div>
-          <div className="absolute left-[5px] top-1/2 h-[42px] w-[42px] -translate-y-1/2">
+          <div className="absolute left-[4px] top-1/2 h-[34px] w-[34px] -translate-y-1/2 sm:h-[38px] sm:w-[38px] md:left-[5px] md:h-[42px] md:w-[42px] lg:left-[6px]">
             <svg className="h-full w-full" viewBox="0 0 42 42" fill="none" aria-hidden="true">
               <circle cx="20.83" cy="20.83" r="20.83" fill="#05442E" />
               <path d={svgPaths.p1de3e280} fill="#E6FC7D" />
@@ -219,23 +219,45 @@ function StepTwoVisual({ locale }: { locale: Locale }) {
           </div>
         </div>
       </div>
+      <div className="absolute left-[244px] top-[309px] flex h-[32px] w-[84px] items-center justify-center rounded-full bg-white text-[20px] font-medium leading-none text-black shadow-[0_1px_3px_rgba(0,0,0,0.08)] sm:left-[265px] sm:top-[336px] sm:h-[34px] sm:w-[90px] sm:text-[22px] md:left-[283px] md:top-[358px] md:h-[38px] md:w-[101px] md:text-[24px] lg:left-[286px] lg:top-[394px] lg:h-[34px] lg:w-[88px] lg:text-[22px]">
+        <span aria-hidden="true" className="mr-1.5 text-[20px] leading-none sm:text-[22px] md:mr-2 md:text-[24px] lg:text-[22px]">❤️</span>
+        257
+      </div>
     </div>
   );
 }
 
 function StepThreeVisual() {
   return (
-    <div className="relative h-[360px] w-full overflow-hidden rounded-[16px] bg-[#fff0ed] sm:h-[392px] md:h-[416px]">
-      <div className="absolute left-1/2 top-12 -translate-x-1/2 origin-top max-md:scale-[0.86] sm:max-md:scale-[0.92] md:left-[83px] md:top-[49px] md:translate-x-0 md:scale-100">
+    <div className="relative h-[360px] w-full overflow-hidden rounded-[16px] bg-[#fff0ed] sm:h-[392px] md:h-[416px] lg:h-[486px]">
+      <div className="absolute left-1/2 top-12 -translate-x-1/2 origin-top max-md:scale-[0.86] sm:max-md:scale-[0.92] md:top-[49px] md:scale-100 lg:top-[88px] lg:scale-[1.15]">
         <div className="relative h-[309px] w-[325px]">
-          <div className="absolute left-[111px] top-0 h-[199px] w-[181px] rounded-[13px] bg-white shadow-[-0.76px_-3px_8px_0px_rgba(0,0,0,0.08)]" />
-          <div className="absolute left-[97px] top-[19px] h-[230px] w-[209px] rounded-[15px] bg-white shadow-[-0.87px_-3.5px_9.5px_0px_rgba(0,0,0,0.08)]" />
-          <div className="absolute left-[83px] top-[43px] h-[266px] w-[242px] overflow-hidden rounded-[17px] bg-white shadow-[-1px_-4px_11px_0px_rgba(0,0,0,0.08)]">
-            <div className="absolute left-1/2 top-[17px] flex -translate-x-1/2 flex-col items-center gap-7">
-              <p className="text-[21px] font-medium leading-8 text-[#001f00]">Order frequency</p>
-              <div className="relative h-[151px] w-[151px]">
+          <div className="absolute left-[72px] top-0 h-[199px] w-[181px] rounded-[13px] bg-white shadow-[-0.76px_-3px_8px_0px_rgba(0,0,0,0.08)]" />
+          <div className="absolute left-[58px] top-[19px] h-[230px] w-[209px] rounded-[15px] bg-white shadow-[-0.87px_-3.5px_9.5px_0px_rgba(0,0,0,0.08)]" />
+          <div className="absolute left-[14px] top-[43px] h-[266px] w-[296px] overflow-hidden rounded-[17px] bg-white shadow-[-1px_-4px_11px_0px_rgba(0,0,0,0.08)]">
+            <div className="absolute left-1/2 top-[26px] flex -translate-x-1/2 flex-col items-center gap-6">
+              <p className="whitespace-nowrap text-[24px] font-medium leading-none text-[#001f00]">Order frequency</p>
+              <div className="relative h-[170px] w-[170px]">
                 <svg className="absolute inset-[0_0.01%_0.03%_38.07%]" viewBox="0 0 94 152" fill="none" aria-hidden="true">
-                  <path clipRule="evenodd" d={svgPaths.pf46e200} fill="#000" fillRule="evenodd" />
+                  <defs>
+                    <linearGradient
+                      id="order-frequency-primary-gradient"
+                      x1="20.5453"
+                      x2="93.6495"
+                      y1="0.209"
+                      y2="151.209"
+                      gradientUnits="userSpaceOnUse"
+                    >
+                      <stop stopColor="#B7EBA3" />
+                      <stop offset="1" stopColor="#DDF5D2" />
+                    </linearGradient>
+                  </defs>
+                  <path
+                    clipRule="evenodd"
+                    d={svgPaths.pf46e200}
+                    fill="url(#order-frequency-primary-gradient)"
+                    fillRule="evenodd"
+                  />
                 </svg>
                 <svg className="absolute inset-[37.5%_56.93%_1.51%_0.13%]" viewBox="0 0 65 93" fill="none" aria-hidden="true">
                   <path clipRule="evenodd" d={svgPaths.p12e6ee00} fill="#78B85F" fillRule="evenodd" />

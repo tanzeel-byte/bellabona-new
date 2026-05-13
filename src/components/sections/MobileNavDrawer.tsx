@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import { SanityImage as Image } from "@/components/ui/SanityImage";
 import Link from "next/link";
 import { useEffect, useId, useState } from "react";
 import type { Route } from "next";

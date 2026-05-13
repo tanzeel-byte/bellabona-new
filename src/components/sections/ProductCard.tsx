@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { SanityImage as Image } from "@/components/ui/SanityImage";
 
 import { FIGMA_IMAGES } from "@/lib/figma/assets";
 import { sanityImageUrl } from "@/lib/sanity-image";

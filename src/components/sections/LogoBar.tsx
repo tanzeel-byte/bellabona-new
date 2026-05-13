@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { SanityImage as Image } from "@/components/ui/SanityImage";
 
 import { AtollsLogo, IfcoLogo } from "@/components/figma/TrustLogos";
 import { Container } from "@/components/ui/Container";

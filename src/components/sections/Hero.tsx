@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { SanityImage as Image } from "@/components/ui/SanityImage";
 import Link from "next/link";
 import type { Route } from "next";
 import { PortableText } from "@portabletext/react";

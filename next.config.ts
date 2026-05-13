@@ -8,12 +8,13 @@ const nextConfig: NextConfig = {
   cacheComponents: true,
 
   images: {
-    // Sanity's image CDN. Specific to our project for least-privilege.
+    // Sanity CDN — must match whatever `NEXT_PUBLIC_SANITY_PROJECT_ID` you use.
+    // (A single hard-coded project id breaks `next/image` for all other Sanity projects.)
     remotePatterns: [
       {
         protocol: "https",
         hostname: "cdn.sanity.io",
-        pathname: "/images/8yc2ngkf/**",
+        pathname: "/images/**",
       },
     ],
     // Modern formats. next/image will negotiate AVIF first, fall back to WebP.

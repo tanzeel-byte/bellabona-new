@@ -2,11 +2,6 @@ import { defineField, defineType } from "sanity";
 
 import { LOCALES } from "@/lib/i18n";
 
-/**
- * Rich-text Portable Text per locale. Editors get bold/italic/links — the
- * minimum set for marketing copy. Avoid adding too many marks here; the more
- * options an editor has, the harder it is to keep visual consistency.
- */
 export const localePortableText = defineType({
   name: "localePortableText",
   title: "Localized rich text",

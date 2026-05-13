@@ -14,17 +14,7 @@ type BuildArgs = {
   fallbackDescription?: string;
 };
 
-/**
- * Build a Next.js Metadata object from Sanity SEO fields + a canonical path.
- *
- * Behaviours:
- *   - All field values come from Sanity (red-flag avoidance: never hardcoded).
- *   - Canonical URL is always set so duplicate-content signals are clean.
- *   - hreflang alternates are emitted for every supported locale + x-default,
- *     so search engines understand the bilingual structure even though only
- *     EN is rendered today.
- *   - The noIndex toggle in Sanity is respected via metadata.robots.
- */
+/** Builds Next.js Metadata from Sanity SEO fields. Emits canonical + hreflang for all locales. */
 export function buildMetadata({
   locale,
   path,

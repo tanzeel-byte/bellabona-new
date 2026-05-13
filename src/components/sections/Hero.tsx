@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import type { Route } from "next";
 import { PortableText } from "@portabletext/react";
@@ -70,10 +71,13 @@ export function Hero({ hero, locale }: Props) {
           <div className="reveal flex min-w-0 flex-1 flex-col gap-5 xl:relative xl:h-[697px] xl:gap-0">
             <div className="relative aspect-[4/5] w-full overflow-hidden rounded-[20px] sm:aspect-[5/6] xl:absolute xl:inset-0 xl:aspect-auto">
               <div className="absolute left-1/2 top-[-6%] h-[112%] w-[104%] -translate-x-1/2 xl:top-[-10%] xl:h-[120%] xl:w-full">
-                <img
+                <Image
                   alt={imageAlt}
                   src={FIGMA_IMAGES.hero}
-                  className="pointer-events-none absolute inset-0 size-full max-w-none object-cover"
+                  fill
+                  priority
+                  sizes="(min-width: 1280px) 50vw, 100vw"
+                  className="pointer-events-none max-w-none object-cover"
                 />
               </div>
 

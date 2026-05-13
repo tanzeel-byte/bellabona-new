@@ -1,11 +1,5 @@
 import { groq } from "next-sanity";
 
-/**
- * Reusable GROQ fragments. Centralised so the Sanity schema and the rendering
- * layer never drift — change a field name in one place.
- */
-
-// Project just enough metadata so next/image gets dimensions, alt, and lqip.
 const imageProjection = groq`{
   alt,
   "asset": asset->{
@@ -34,11 +28,6 @@ const navLinkProjection = groq`{
   href
 }`;
 
-/**
- * Homepage query.
- * Returns everything the page needs in a single round-trip so the cached
- * function has a stable shape.
- */
 export const HOMEPAGE_QUERY = groq`
   *[_type == "homepage"][0]{
     _id,

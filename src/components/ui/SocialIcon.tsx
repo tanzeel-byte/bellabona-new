@@ -2,21 +2,11 @@ import type { SVGProps } from "react";
 
 import type { SocialPlatform } from "@/types/sanity";
 
-/**
- * Small inline SVG icons for the footer social row. Inline SVG (rather than
- * an icon font or per-icon image) means zero extra network requests and
- * trivial recolouring via `currentColor`.
- *
- * Each icon is a single `<path>` so the bundle impact is negligible. Icons
- * are simplified versions of brand glyphs — fine for a footer at 20-24px.
- */
-
 type Props = {
   platform: SocialPlatform;
 } & SVGProps<SVGSVGElement>;
 
 const PATHS: Record<SocialPlatform, string> = {
-  // 24x24 viewBox for all glyphs.
   google:
     "M22 12.06c0-.72-.06-1.42-.18-2.1H12v3.97h5.62c-.24 1.27-.96 2.34-2.05 3.05v2.52h3.32C20.87 17.63 22 15.07 22 12.06zM12 22c2.7 0 4.97-.9 6.62-2.42l-3.32-2.52c-.92.6-2.1.96-3.3.96-2.54 0-4.7-1.7-5.47-4H3.1v2.52A10 10 0 0 0 12 22zm-5.47-6c-.2-.6-.3-1.24-.3-1.9s.1-1.3.3-1.9V9.7H3.1A10 10 0 0 0 2 12c0 1.62.4 3.16 1.1 4.52L6.53 16zM12 6.16c1.46 0 2.77.5 3.8 1.5l2.85-2.85A10 10 0 0 0 12 2 10 10 0 0 0 3.1 7.48L6.53 10c.76-2.3 2.93-3.84 5.47-3.84z",
   twitter:

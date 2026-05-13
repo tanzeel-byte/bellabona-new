@@ -1,14 +1,7 @@
 import { HomeIcon } from "@sanity/icons";
 import { defineField, defineType } from "sanity";
 
-/**
- * Homepage as a singleton — there is exactly one in the dataset.
- * Singleton enforcement happens in structure.ts (the document is hidden from
- * the "+ New" menu) so editors can never accidentally create a second.
- *
- * Top-level fields are deliberately split into "seo" and content sections.
- * This is the explicit green flag from the brief.
- */
+// Singleton — structure.ts hides this from the "+ New" menu.
 export const homepage = defineType({
   name: "homepage",
   title: "Homepage",

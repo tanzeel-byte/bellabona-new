@@ -3,24 +3,7 @@ import { type NextRequest, NextResponse } from "next/server";
 
 import { revalidateSecret } from "@/sanity/env";
 
-/**
- * Webhook endpoint hit by Sanity when a document is published.
- *
- * In Sanity → Manage → API → Webhooks, create a webhook with:
- *   URL:     {SITE_URL}/api/revalidate
- *   Trigger: Create / Update / Delete
- *   Filter:  _type in ["homepage", "siteSettings"]
- *   HTTP:    POST, JSON body
- *   Secret:  matches SANITY_REVALIDATE_SECRET (sent in `Sanity-Webhook-Secret` header)
- *
- * The handler maps the changed document `_type` to its cache tag and calls
- * `revalidateTag(tag, "max")` so the cache is marked stale and refreshed in
- * the background on the next request — stale-while-revalidate semantics, no
- * blocking work for readers.
- *
- * Why not revalidatePath? Tags scale better: when we add more pages that
- * consume the homepage document, the same tag flushes all of them.
- */
+// On-demand revalidation via Sanity webhook. Maps _type → cache tag.
 export async function POST(request: NextRequest) {
   if (!revalidateSecret) {
     return NextResponse.json(
@@ -29,16 +12,11 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  // Sanity sends the shared secret in this header. Comparing strings directly
-  // is fine because both sides are short, constant-time-safe values here.
   const provided = request.headers.get("sanity-webhook-secret");
   if (provided !== revalidateSecret) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  // Sanity webhook bodies vary by projection. We expect a `_type` field
-  // either at the root or under `result._type` depending on how the webhook
-  // is configured. Handle both.
   let body: unknown;
   try {
     body = await request.json();
@@ -54,7 +32,6 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  // Map document types → cache tags. Add new types here as the schema grows.
   const tagMap: Record<string, string> = {
     homepage: "homepage",
     siteSettings: "siteSettings",
@@ -67,8 +44,6 @@ export async function POST(request: NextRequest) {
     });
   }
 
-  // 'max' profile = stale-while-revalidate. Readers keep getting cached HTML
-  // until the regenerated copy is ready — no waterfall, no waiting.
   revalidateTag(tag, "max");
 
   return NextResponse.json({ revalidated: true, tag, at: Date.now() });

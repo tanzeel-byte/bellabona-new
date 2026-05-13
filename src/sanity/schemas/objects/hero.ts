@@ -1,9 +1,5 @@
 import { defineField, defineType } from "sanity";
 
-/**
- * Hero section content. Image is required because the hero image is the LCP
- * element on the homepage — making it optional would make CLS unpredictable.
- */
 export const hero = defineType({
   name: "hero",
   title: "Hero section",

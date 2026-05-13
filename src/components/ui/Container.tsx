@@ -5,11 +5,6 @@ type ContainerProps = HTMLAttributes<HTMLDivElement> & {
   narrow?: boolean;
 };
 
-/**
- * Page container. Caps width at 1280 (the Figma `Container/container-large`
- * token) and applies the 64px page padding (`Page Padding/padding-global`)
- * that mirrors the design.
- */
 export function Container({
   className = "",
   narrow = false,

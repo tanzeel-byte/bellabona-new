@@ -1,13 +1,6 @@
 import { defineField, defineType } from "sanity";
 
-/**
- * A single feature/benefit. The brief's explicit shape: icon + title +
- * description per item, editable in Sanity.
- *
- * The icon is intentionally just a string slug — picking from a known set
- * keeps the design system tight and avoids editors uploading off-brand
- * imagery. Add new slugs by updating the `Icon` component.
- */
+// Icon is a string slug, not an image upload — keeps the design system tight.
 export const featureItem = defineType({
   name: "featureItem",
   title: "Feature",

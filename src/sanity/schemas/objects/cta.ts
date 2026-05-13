@@ -1,9 +1,5 @@
 import { defineField, defineType } from "sanity";
 
-/**
- * Reusable call-to-action object. The variant selector lets editors swap
- * styles without coupling design tokens to specific button instances.
- */
 export const cta = defineType({
   name: "cta",
   title: "Call to action",

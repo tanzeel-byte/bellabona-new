@@ -1,15 +1,7 @@
 import { CogIcon } from "@sanity/icons";
 import { defineField, defineType } from "sanity";
 
-/**
- * Site-wide settings: organization info (drives the Organization JSON-LD
- * structured data), header nav, footer nav. Singleton — enforced in
- * structure.ts.
- *
- * Editing here changes every page that consumes site settings, so the
- * cache tag is keyed on `siteSettings` and a webhook from this document
- * invalidates every page.
- */
+// Singleton — structure.ts hides this from the "+ New" menu.
 export const siteSettings = defineType({
   name: "siteSettings",
   title: "Site settings",

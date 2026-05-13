@@ -1,12 +1,6 @@
 import type { StructureResolver } from "sanity/structure";
 import { CogIcon, HomeIcon } from "@sanity/icons";
 
-/**
- * Custom Studio structure that surfaces both singletons (homepage, siteSettings)
- * as direct top-level items instead of generic "Document" lists. Editors get a
- * one-click path to the content they actually maintain, and the "+ New" menu
- * cannot duplicate either document because we don't expose them as a list.
- */
 export const structure: StructureResolver = (S) =>
   S.list()
     .title("Content")

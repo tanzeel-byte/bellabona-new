@@ -11,12 +11,6 @@ type ButtonProps = {
   className?: string;
 };
 
-/**
- * Renders a Sanity CTA as either an internal <Link> (for prefetching) or an
- * external <a> with safe rel attrs. The variant maps to design tokens defined
- * in globals.css; styling stays in one place so a brand colour change is a
- * one-line CSS edit.
- */
 export function Button({
   href,
   variant = "primary",
@@ -37,7 +31,6 @@ export function Button({
 
   const classes = `${base} ${variants[variant]} ${className}`;
 
-  // External links open in new tab with safe rel; relative paths get prefetched.
   const isExternal = /^https?:\/\//.test(href);
   if (isExternal) {
     return (

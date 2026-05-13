@@ -12,20 +12,8 @@ type Props = {
   locale: Locale;
 };
 
-// Captured at build time so Cache Components doesn't trip on `new Date()`
-// at render time.
 const BUILD_YEAR = new Date().getFullYear();
 
-/**
- * Site footer — matches the Figma "Footer" frame: deep brand-forest surface
- * (#024930), Follow-Us block on the left with email + social icon row, three
- * stacked or grid-aligned link columns, then an oversized BELLABONA wordmark
- * in the lime accent that bleeds the brand into the bottom edge of the page.
- *
- * All content is Sanity-driven via siteSettings.footer. If a block is empty
- * in the CMS it simply doesn't render — editors stay in control without us
- * leaving placeholder ghosts in the DOM.
- */
 export function Footer({ settings, locale }: Props) {
   const footer = settings?.footer;
   const tagline = pickLocale(footer?.tagline, locale);

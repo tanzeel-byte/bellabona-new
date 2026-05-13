@@ -1,12 +1,3 @@
-/**
- * Hand-written TypeScript types mirroring the Sanity schemas.
- *
- * In a production app we'd codegen these with `sanity-codegen` or
- * `@sanity/typegen` from the GROQ queries so renames stay in sync. Hand-
- * writing them keeps the test small and the data contract visible at a
- * glance.
- */
-
 import type { PortableTextBlock } from "@portabletext/types";
 
 export type LocaleString = {

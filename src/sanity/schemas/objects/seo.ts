@@ -1,12 +1,5 @@
 import { defineField, defineType } from "sanity";
 
-/**
- * SEO metadata, kept in its own object so editors clearly see the difference
- * between page *content* and the metadata search engines and social platforms
- * consume. Reusable across any document type (homepage, future article pages).
- *
- * Validation lengths reflect Google SERP / Open Graph display limits.
- */
 export const seo = defineType({
   name: "seo",
   title: "SEO & metadata",

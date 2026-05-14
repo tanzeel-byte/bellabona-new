@@ -50,11 +50,11 @@ export function CultureSection({ section, locale }: Props) {
         )}
 
         {stats.length > 0 && (
-          <dl className="reveal mt-16 grid grid-cols-1 gap-[30px] lg:grid-cols-3">
+          <dl className="reveal mt-16 grid grid-cols-1 items-stretch gap-[30px] lg:grid-cols-3">
             {stats.map((stat, index) => (
               <div
                 key={`${stat.value ?? "culture-stat"}-${index}`}
-                className="flex min-h-[426px] flex-col justify-between rounded-[16px] bg-[#024930] px-10 py-8 text-[#f9ffe9]"
+                className="flex h-full min-h-0 flex-col justify-start gap-5 rounded-[16px] bg-[#024930] px-8 py-6 text-[#f9ffe9] sm:px-10 sm:py-8 lg:justify-between lg:gap-0 lg:px-10"
               >
                 <div>
                   {stat.value && (

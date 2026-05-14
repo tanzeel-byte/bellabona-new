@@ -57,6 +57,13 @@ export function ContactSection({ section, locale }: Props) {
     sanityImageUrl(section.portraitImage, 900) ?? FIGMA_IMAGES.contactPortrait;
   const portraitAlt =
     pickLocale(section.portraitImage?.alt, locale) ?? "";
+  const isGerman = locale === "de";
+  const contentGapClassName = isGerman
+    ? "gap-16 py-12 sm:gap-20 sm:py-14 lg:gap-20 lg:py-0"
+    : "gap-16 py-12 sm:gap-24 sm:py-14 lg:gap-32 lg:py-0";
+  const headingClassName = isGerman
+    ? "reveal w-full text-2xl font-bold leading-[1.2] text-[#f9ffe9] sm:text-[46px] lg:text-[52px]"
+    : "reveal w-full text-2xl font-bold leading-[1.2] text-[#f9ffe9] sm:text-[52px] lg:text-[60px]";
 
   if (!headline && !body && !formHeading) return null;
 
@@ -64,13 +71,13 @@ export function ContactSection({ section, locale }: Props) {
     <section aria-labelledby="contact-heading" className="bg-white py-5 md:py-10 lg:py-20">
       <Container className="max-w-[1440px] px-6 py-10 md:px-10">
         <div className="flex flex-col items-start gap-20 lg:flex-row">
-          <div className="relative min-h-[648px] w-full max-w-[635px] shrink-0 overflow-x-clip rounded-2xl bg-[#024930] pb-10 pt-10 lg:h-[648px] lg:overflow-clip lg:pb-0 lg:pt-0">
-            <div className="relative left-1/2 flex w-[534px] max-w-[calc(100%-48px)] -translate-x-1/2 translate-y-0 flex-col items-start gap-16 sm:gap-24 lg:absolute lg:top-1/2 lg:-translate-y-1/2 lg:gap-32">
+          <div className="relative min-h-[648px] w-full max-w-[635px] shrink-0 overflow-hidden rounded-2xl bg-[#024930] lg:h-[648px] lg:overflow-clip">
+            <div className={`relative left-1/2 flex w-[534px] max-w-[calc(100%-48px)] -translate-x-1/2 translate-y-0 flex-col items-start lg:absolute lg:top-1/2 lg:-translate-y-1/2 ${contentGapClassName}`}>
               <div className="flex w-full flex-col gap-[10.774px]">
                 {headline && (
                   <h2
                     id="contact-heading"
-                    className="reveal w-full text-2xl font-bold leading-[1.2] text-[#f9ffe9] sm:text-[52px] lg:text-[60px]"
+                    className={headingClassName}
                   >
                     {headline}
                   </h2>

@@ -59,7 +59,7 @@ export function ProductCard({ card, locale, index = 0 }: Props) {
         {tag && <CategoryBadge label={tag} />}
       </div>
 
-      <div className="flex w-full flex-col gap-2.5">
+      <div className="flex w-full min-h-[108px] flex-col gap-2.5">
         {title && (
           <h3 className="w-full text-[24px] font-semibold leading-[1.4] tracking-[0.288px] text-black">
             {title}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 
 import { pickLocale, type Locale } from "@/lib/i18n";
 import type { Homepage } from "@/types/sanity";
@@ -35,17 +35,6 @@ export function FaqAccordion({ section, locale }: Props) {
   );
 
   const [openIndices, setOpenIndices] = useState<Set<number>>(() => new Set());
-
-  useEffect(() => {
-    const sync = () => {
-      const wide = window.matchMedia("(min-width: 768px)").matches;
-      setOpenIndices(wide ? new Set(items.map((_, i) => i)) : new Set());
-    };
-    sync();
-    const mql = window.matchMedia("(min-width: 768px)");
-    mql.addEventListener("change", sync);
-    return () => mql.removeEventListener("change", sync);
-  }, [items]);
 
   const toggle = useCallback((index: number) => {
     setOpenIndices((prev) => {

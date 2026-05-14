@@ -321,10 +321,12 @@ function PricingSliderRow({
           <p className="col-start-1 row-start-2  text-left md:text-xl leading-none tracking-[-0.4px] tabular-nums text-[#1b1b1b]">
             {minLabel}
           </p>
-          <div className="relative col-start-2 row-start-2 z-10 min-h-6 w-full min-w-0 self-end">
+          <div className="relative col-start-2 row-start-2 z-10 w-full min-w-0 px-[96px] sm:px-[120px]">
             <p
-              className="pointer-events-none absolute bottom-0 z-10 min-w-0 max-w-full -translate-x-1/2 text-center text-sm font-semibold leading-tight tracking-[-0.4px] text-[#1b1b1b] whitespace-normal sm:whitespace-nowrap sm:text-xl "
-              style={{ left: `${thumbPct}%` }}
+              className="pointer-events-none text-center text-sm font-semibold leading-tight tracking-[-0.4px] text-[#1b1b1b] whitespace-nowrap sm:text-xl"
+              style={{
+                transform: `translateX(calc(${thumbPct}% - 50%))`,
+              }}
             >
               {valueLabel}
             </p>
@@ -388,21 +390,21 @@ function ResultCard({
 
   return (
     <div
-      className={`rounded-2xl p-[30px] ${
+      className={`min-h-[205px] rounded-[10px] p-8 sm:rounded-2xl sm:p-[30px] lg:min-h-0 ${
         isDark ? "bg-[#024930] text-[#f9ffe9]" : "bg-[#e6ffa9] text-[#024930]"
       }`}
     >
-      <div className="flex flex-col gap-10">
-        <div className="flex min-h-[144px] flex-col justify-between text-center">
-          {heading && <p className="text-2xl leading-[1.5]">{heading}</p>}
+      <div className="flex flex-col gap-8 sm:gap-10">
+        <div className="flex flex-col gap-[54px] text-left sm:min-h-[144px] sm:justify-between sm:gap-0 sm:text-center">
+          {heading && <p className="text-base font-semibold leading-[1.35] sm:text-2xl sm:font-normal sm:leading-[1.5]">{heading}</p>}
           {(value || caption) && (
             <div className="flex flex-col gap-3 text-left">
               {value && (
-                <p className="text-[45px] font-medium leading-[0.95] tracking-[-1.35px]">
+                <p className="text-[56px] font-medium leading-[0.95] tracking-[-2.82px] sm:text-[45px] sm:tracking-[-1.35px]">
                   {value}
                 </p>
               )}
-              {caption && <p className="text-xl leading-[1.5]">{caption}</p>}
+              {caption && <p className="text-base font-semibold leading-[1.35] sm:text-xl sm:font-normal sm:leading-[1.5]">{caption}</p>}
             </div>
           )}
         </div>

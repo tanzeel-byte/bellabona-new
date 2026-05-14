@@ -22,21 +22,21 @@ export function StatsSection({ stats, locale }: Props) {
       <h2 id="stats-heading" className="sr-only">
         Key results
       </h2>
-      <Container className="max-w-[1440px] px-6 py-5 md:px-10">
-        <dl className="reveal grid grid-cols-1 gap-[30px] lg:grid-cols-3">
+      <Container className="max-w-[1440px] px-4 py-5 md:px-10">
+        <dl className="reveal mx-auto grid w-full grid-cols-1 gap-3.5 sm:max-w-none sm:gap-[30px] lg:grid-cols-3">
           {items.map((stat, index) => (
             <div
               key={`${stat.value ?? "stat"}-${index}`}
-              className="flex h-[316px] flex-col items-center justify-center rounded-[16px] bg-[#f8f7f6] px-10 py-[30px]"
+              className="flex min-h-[205px] flex-col justify-center rounded-[10px] bg-[#f8f7f6] px-8 py-6 sm:min-h-[170px] sm:rounded-[16px] sm:px-10 sm:py-[30px] lg:h-[316px] lg:items-center lg:px-10"
             >
-              <div className="flex h-[245px] w-full max-w-[340px] flex-col justify-between">
+              <div className="flex w-full max-w-[340px] flex-col gap-[54px] sm:gap-8 lg:h-[245px] lg:justify-between lg:gap-0">
                 {stat.value && (
-                  <dt className="text-[72px] font-medium leading-[0.95] tracking-[-2.82px] text-[#1a211e] lg:text-[92px]">
+                  <dt className="text-[56px] font-medium leading-[0.95] tracking-[-2.82px] text-[#1a211e] sm:text-[72px] lg:text-[92px]">
                     {stat.value}
                   </dt>
                 )}
                 {stat.label && (
-                  <dd className="whitespace-pre-wrap text-[20px] font-normal leading-[1.5] text-black lg:text-[24px]">
+                  <dd className="whitespace-pre-wrap text-base font-normal leading-[1.35] text-black sm:text-[20px] lg:text-[24px] lg:leading-[1.5]">
                     {stat.label}
                   </dd>
                 )}

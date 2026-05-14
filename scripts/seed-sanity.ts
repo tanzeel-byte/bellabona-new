@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 /**
  * One-shot Sanity content seed.
  *
@@ -775,6 +774,16 @@ async function seed() {
         en: "How much of each meal will your company cover?",
         de: "Wie viel übernimmt Ihr Unternehmen pro Mahlzeit?",
       },
+      defaultDays: 3,
+      employeesMin: 20,
+      employeesMax: 250,
+      defaultEmployees: 50,
+      subsidyMin: 3,
+      subsidyMax: 10,
+      defaultSubsidy: 4.4,
+      mealPriceMin: 7.9,
+      mealPriceMax: 9.9,
+      participationRate: 0.85,
       emailPrompt: {
         en: "Enter your email for a custom breakdown and expert advice on saving more.*",
         de: "Geben Sie Ihre E-Mail für eine individuelle Aufstellung und Spartipps ein.*",

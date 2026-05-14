@@ -1,8 +1,7 @@
 import { SanityImage as Image } from "@/components/ui/SanityImage";
-import Link from "next/link";
-import type { Route } from "next";
 
 import { Container } from "@/components/ui/Container";
+import { CtaPopupButton } from "@/components/ui/CtaPopup";
 import { FIGMA_IMAGES } from "@/lib/figma/assets";
 import { sanityImageUrl } from "@/lib/sanity-image";
 import { pickLocale, type Locale } from "@/lib/i18n";
@@ -45,12 +44,13 @@ export function SupportSection({ section, locale }: Props) {
                 )}
               </div>
               {ctaLabel && ctaHref && (
-                <Link
-                  href={ctaHref as Route}
+                <CtaPopupButton
+                  href={ctaHref}
+                  label={ctaLabel}
                   className="inline-flex h-[54px] items-center justify-center rounded-[77.707px] bg-[#024930] px-8 py-2.5 text-base font-semibold tracking-[0.192px] text-[#f9ffe9] transition-colors hover:bg-[#013724]"
                 >
                   {ctaLabel}
-                </Link>
+                </CtaPopupButton>
               )}
             </div>
 

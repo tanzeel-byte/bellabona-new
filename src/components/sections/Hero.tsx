@@ -1,10 +1,9 @@
 import { SanityImage as Image } from "@/components/ui/SanityImage";
-import Link from "next/link";
-import type { Route } from "next";
 import { PortableText } from "@portabletext/react";
 
 import { AppStoreBadge, GoogleReviewsBadge } from "@/components/figma/AppStoreBadge";
 import { Container } from "@/components/ui/Container";
+import { CtaPopupButton } from "@/components/ui/CtaPopup";
 import { FIGMA_IMAGES } from "@/lib/figma/assets";
 import { sanityImageUrl } from "@/lib/sanity-image";
 import svgPaths from "@/lib/figma/svg-paths";
@@ -59,12 +58,13 @@ export function Hero({ hero, locale }: Props) {
                   </div>
                 )}
                 {hero.primaryCta?.href && hero.primaryCta.label && (
-                  <Link
-                    href={hero.primaryCta.href as Route}
+                  <CtaPopupButton
+                    href={hero.primaryCta.href}
+                    label={pickLocale(hero.primaryCta.label, locale)}
                     className="inline-flex h-10 items-center justify-center self-center rounded-[77.707px] bg-[#e6ffa9] px-5 text-base font-medium leading-none tracking-[0.216px] text-[#024930] transition-colors hover:bg-[var(--color-brand-accent-hover)] sm:h-11 sm:px-6 sm:text-[17px] lg:h-[47.37px] lg:self-start lg:px-6 lg:py-2.5 lg:text-lg"
                   >
                     {pickLocale(hero.primaryCta.label, locale)}
-                  </Link>
+                  </CtaPopupButton>
                 )}
               </div>
             </div>

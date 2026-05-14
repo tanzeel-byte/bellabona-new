@@ -143,6 +143,16 @@ export type Homepage = {
     daysQuestion?: LocaleString;
     employeesQuestion?: LocaleString;
     subsidyQuestion?: LocaleString;
+    defaultDays?: number;
+    employeesMin?: number;
+    employeesMax?: number;
+    defaultEmployees?: number;
+    subsidyMin?: number;
+    subsidyMax?: number;
+    defaultSubsidy?: number;
+    mealPriceMin?: number;
+    mealPriceMax?: number;
+    participationRate?: number;
     emailPrompt?: LocaleString;
     employeeResult?: PricingResultCard;
     companyResult?: PricingResultCard;

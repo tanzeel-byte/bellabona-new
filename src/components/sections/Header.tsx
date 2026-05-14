@@ -5,6 +5,7 @@ import type { Route } from "next";
 import { Wordmark } from "@/components/brand/Wordmark";
 import { MobileNavDrawer } from "@/components/sections/MobileNavDrawer";
 import { Container } from "@/components/ui/Container";
+import { CtaPopupButton } from "@/components/ui/CtaPopup";
 import { LocaleToggle } from "@/components/ui/LocaleToggle";
 import svgPaths from "@/lib/figma/svg-paths";
 import { type Locale, pickLocale } from "@/lib/i18n";
@@ -100,21 +101,23 @@ export function Header({ settings, locale }: Props) {
 
             <div className="flex items-center gap-6">
               {secondary?.href && secondaryLabel && (
-                <Link
-                  href={secondary.href as Route}
+                <CtaPopupButton
+                  href={secondary.href}
+                  label={secondaryLabel}
                   className="inline-flex h-12 items-center px-6 text-lg font-normal tracking-[-0.04px] text-[#1a211e] underline decoration-solid underline-offset-4 transition-colors hover:text-[var(--color-brand-green)]"
                 >
                   {secondaryLabel}
-                </Link>
+                </CtaPopupButton>
               )}
 
               {header?.cta?.href && ctaLabel && (
-                <Link
-                  href={header.cta.href as Route}
+                <CtaPopupButton
+                  href={header.cta.href}
+                  label={ctaLabel}
                   className="inline-flex h-12 items-center rounded-full bg-[rgba(0,38,22,0.9)] px-6 text-lg font-medium tracking-[-0.04px] text-[#fbfefc] transition-colors hover:bg-[var(--color-brand-ink)]"
                 >
                   {ctaLabel}
-                </Link>
+                </CtaPopupButton>
               )}
             </div>
           </div>

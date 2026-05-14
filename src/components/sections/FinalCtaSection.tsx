@@ -1,7 +1,5 @@
-import Link from "next/link";
-import type { Route } from "next";
-
 import { Container } from "@/components/ui/Container";
+import { CtaPopupButton } from "@/components/ui/CtaPopup";
 import { pickLocale, type Locale } from "@/lib/i18n";
 import type { Homepage } from "@/types/sanity";
 
@@ -39,12 +37,13 @@ export function FinalCtaSection({ section, locale }: Props) {
         )}
         {ctaLabel && ctaHref && (
           <div className="mt-10 flex justify-center">
-            <Link
-              href={ctaHref as Route}
+            <CtaPopupButton
+              href={ctaHref}
+              label={ctaLabel}
               className="inline-flex h-12 items-center rounded-full bg-[var(--color-brand-accent)] px-8 text-lg font-medium text-[var(--color-brand-forest)] transition-colors hover:bg-[var(--color-brand-accent-hover)]"
             >
               {ctaLabel}
-            </Link>
+            </CtaPopupButton>
           </div>
         )}
       </Container>

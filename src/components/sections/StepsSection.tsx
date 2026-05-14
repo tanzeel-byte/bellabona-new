@@ -1,8 +1,7 @@
 import { SanityImage as Image } from "@/components/ui/SanityImage";
-import Link from "next/link";
-import type { Route } from "next";
 
 import { Container } from "@/components/ui/Container";
+import { CtaPopupButton } from "@/components/ui/CtaPopup";
 import { FIGMA_IMAGES } from "@/lib/figma/assets";
 import { sanityImageUrl } from "@/lib/sanity-image";
 import svgPaths from "@/lib/figma/svg-paths";
@@ -84,12 +83,13 @@ export function StepsSection({ section, locale }: Props) {
 
           {ctaLabel && ctaHref && (
             <div className="reveal flex h-12 w-full items-center justify-center">
-              <Link
-                href={ctaHref as Route}
+              <CtaPopupButton
+                href={ctaHref}
+                label={ctaLabel}
                 className="inline-flex h-[47.37px] items-center justify-center rounded-[77.707px] bg-[#024930] px-6 text-lg font-medium tracking-[0.216px] text-white transition-colors hover:bg-[var(--color-brand-green)]"
               >
                 {ctaLabel}
-              </Link>
+              </CtaPopupButton>
             </div>
           )}
         </div>

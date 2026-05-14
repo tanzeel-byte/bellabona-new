@@ -6,6 +6,7 @@ import { useEffect, useId, useState } from "react";
 import type { Route } from "next";
 
 import { Wordmark } from "@/components/brand/Wordmark";
+import { CtaPopupButton } from "@/components/ui/CtaPopup";
 import { LocaleToggle } from "@/components/ui/LocaleToggle";
 import type { Locale } from "@/lib/i18n";
 
@@ -136,23 +137,25 @@ export function MobileNavDrawer({
             )}
 
             {secondary && (
-              <Link
-                href={secondary.href as Route}
+              <CtaPopupButton
+                href={secondary.href}
+                label={secondary.label}
                 className="inline-flex min-h-12 items-center px-2 text-lg font-normal tracking-[-0.04px] text-[#1a211e] underline decoration-solid underline-offset-4 transition-colors hover:text-[var(--color-brand-green)]"
-                onClick={close}
+                onOpen={close}
               >
                 {secondary.label}
-              </Link>
+              </CtaPopupButton>
             )}
 
             {cta && (
-              <Link
-                href={cta.href as Route}
+              <CtaPopupButton
+                href={cta.href}
+                label={cta.label}
                 className="inline-flex h-12 items-center justify-center rounded-full bg-[rgba(0,38,22,0.9)] px-6 text-lg font-medium tracking-[-0.04px] text-[#fbfefc] transition-colors hover:bg-[var(--color-brand-ink)]"
-                onClick={close}
+                onOpen={close}
               >
                 {cta.label}
-              </Link>
+              </CtaPopupButton>
             )}
 
             <LocaleToggle currentLocale={locale} />

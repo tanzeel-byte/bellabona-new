@@ -1,8 +1,7 @@
 import { SanityImage as Image } from "@/components/ui/SanityImage";
-import Link from "next/link";
-import type { Route } from "next";
 
 import { Container } from "@/components/ui/Container";
+import { CtaPopupButton } from "@/components/ui/CtaPopup";
 import { FIGMA_IMAGES } from "@/lib/figma/assets";
 import { sanityImageUrl } from "@/lib/sanity-image";
 import svgPaths from "@/lib/figma/svg-paths";
@@ -42,12 +41,13 @@ export function TaxCtaSection({ section, locale }: Props) {
               </h2>
             )}
             {ctaLabel && ctaHref && (
-              <Link
-                href={ctaHref as Route}
+              <CtaPopupButton
+                href={ctaHref}
+                label={ctaLabel}
                 className="reveal flex h-11 w-full items-center justify-center rounded-[77.707px] bg-[#9a0103] px-6 text-base font-medium tracking-[0.216px] text-[#fff0ed] transition-colors hover:bg-[#7d0102] sm:h-[47.37px] sm:text-lg lg:inline-flex lg:w-auto"
               >
                 {ctaLabel}
-              </Link>
+              </CtaPopupButton>
             )}
           </div>
 

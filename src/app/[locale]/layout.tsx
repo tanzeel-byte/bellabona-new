@@ -5,6 +5,7 @@ import type { Metadata, Viewport } from "next";
 import { Footer } from "@/components/sections/Footer";
 import { Header } from "@/components/sections/Header";
 import { OrganizationJsonLd } from "@/components/seo/OrganizationJsonLd";
+import { CtaPopupProvider } from "@/components/ui/CtaPopup";
 import { HTML_LANG, LOCALES, isLocale } from "@/lib/i18n";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
 import { getSiteSettings } from "@/sanity/lib/fetch";
@@ -63,11 +64,13 @@ export default async function LocaleLayout({
       <body className="flex min-h-screen flex-col antialiased">
         <OrganizationJsonLd settings={settings} />
 
-        <Header settings={settings} locale={locale} />
-        <main id="main" className="flex-1">
-          {children}
-        </main>
-        <Footer settings={settings} locale={locale} />
+        <CtaPopupProvider locale={locale}>
+          <Header settings={settings} locale={locale} />
+          <main id="main" className="flex-1">
+            {children}
+          </main>
+          <Footer settings={settings} locale={locale} />
+        </CtaPopupProvider>
       </body>
     </html>
   );

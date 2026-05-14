@@ -1,7 +1,9 @@
-import Link from "next/link";
-import type { Route } from "next";
+"use client";
+
+import { useState } from "react";
 
 import { Container } from "@/components/ui/Container";
+import { CtaPopupButton } from "@/components/ui/CtaPopup";
 import svgPaths from "@/lib/figma/svg-paths";
 import { pickLocale, type Locale } from "@/lib/i18n";
 import type { Homepage, PricingResultCard } from "@/types/sanity";
@@ -11,16 +13,84 @@ type Props = {
   locale: Locale;
 };
 
-/** Static demo positions: min/max from design; thumb matches Figma at ~702px width. */
-const PRICING_SLIDER = {
-  employees: { min: 20, max: 130, value: 50 },
-  subsidyEuro: { min: 3, max: 6, value: 4.4 },
+const DEFAULT_CALCULATOR = {
+  defaultDays: 3,
+  employeesMin: 20,
+  employeesMax: 250,
+  defaultEmployees: 50,
+  subsidyMin: 3,
+  subsidyMax: 10,
+  defaultSubsidy: 4.4,
+  mealPriceMin: 7.9,
+  mealPriceMax: 9.9,
+  participationRate: 0.85,
+  weeksPerMonth: 4.33,
 } as const;
 
 function thumbPercent(min: number, max: number, value: number): number {
   if (max <= min) return 0;
   const t = (value - min) / (max - min);
   return Math.min(100, Math.max(0, t * 100));
+}
+
+function clamp(value: number, min: number, max: number): number {
+  return Math.min(max, Math.max(min, value));
+}
+
+function cleanNumber(value: number | undefined, fallback: number): number {
+  return typeof value === "number" && Number.isFinite(value) ? value : fallback;
+}
+
+function pricingConfig(section: NonNullable<Homepage["pricingSection"]>) {
+  const employeesMin = cleanNumber(section.employeesMin, DEFAULT_CALCULATOR.employeesMin);
+  const employeesMax = Math.max(
+    employeesMin,
+    cleanNumber(section.employeesMax, DEFAULT_CALCULATOR.employeesMax),
+  );
+  const subsidyMin = cleanNumber(section.subsidyMin, DEFAULT_CALCULATOR.subsidyMin);
+  const subsidyMax = Math.max(
+    subsidyMin,
+    cleanNumber(section.subsidyMax, DEFAULT_CALCULATOR.subsidyMax),
+  );
+
+  return {
+    defaultDays: clamp(
+      Math.round(cleanNumber(section.defaultDays, DEFAULT_CALCULATOR.defaultDays)),
+      1,
+      5,
+    ),
+    employeesMin,
+    employeesMax,
+    defaultEmployees: clamp(
+      cleanNumber(section.defaultEmployees, DEFAULT_CALCULATOR.defaultEmployees),
+      employeesMin,
+      employeesMax,
+    ),
+    subsidyMin,
+    subsidyMax,
+    defaultSubsidy: clamp(
+      cleanNumber(section.defaultSubsidy, DEFAULT_CALCULATOR.defaultSubsidy),
+      subsidyMin,
+      subsidyMax,
+    ),
+    mealPriceMin: cleanNumber(section.mealPriceMin, DEFAULT_CALCULATOR.mealPriceMin),
+    mealPriceMax: cleanNumber(section.mealPriceMax, DEFAULT_CALCULATOR.mealPriceMax),
+    participationRate: clamp(
+      cleanNumber(section.participationRate, DEFAULT_CALCULATOR.participationRate),
+      0,
+      1,
+    ),
+    weeksPerMonth: DEFAULT_CALCULATOR.weeksPerMonth,
+  };
+}
+
+function formatEuro(value: number, locale: Locale, fractionDigits = 2): string {
+  const number = new Intl.NumberFormat(locale === "de" ? "de-DE" : "en-US", {
+    minimumFractionDigits: fractionDigits,
+    maximumFractionDigits: fractionDigits,
+  }).format(value);
+
+  return `${number} €`;
 }
 
 const DAY_OPTIONS = [
@@ -32,6 +102,11 @@ const DAY_OPTIONS = [
 ] as const;
 
 export function PricingSection({ section, locale }: Props) {
+  const config = pricingConfig(section);
+  const [days, setDays] = useState(config.defaultDays);
+  const [employees, setEmployees] = useState(config.defaultEmployees);
+  const [subsidy, setSubsidy] = useState(config.defaultSubsidy);
+
   const heading = pickLocale(section.heading, locale);
   const daysQuestion = pickLocale(section.daysQuestion, locale);
   const employeesQuestion = pickLocale(section.employeesQuestion, locale);
@@ -41,6 +116,19 @@ export function PricingSection({ section, locale }: Props) {
   const companyResult = section.companyResult;
   const ctaLabel = pickLocale(section.cta?.label, locale);
   const ctaHref = section.cta?.href;
+  const employeeMealMin = Math.max(0, config.mealPriceMin - subsidy);
+  const employeeMealMax = Math.max(employeeMealMin, config.mealPriceMax - subsidy);
+  const companyMonthlyCost =
+    employees * days * config.weeksPerMonth * subsidy * config.participationRate;
+  const employeeResultValue = `${formatEuro(employeeMealMin, locale)} - ${formatEuro(
+    employeeMealMax,
+    locale,
+  )} / ${locale === "de" ? "Gericht" : "dish"}`;
+  const companyResultValue = `${formatEuro(
+    Math.round(companyMonthlyCost),
+    locale,
+    0,
+  )} / ${locale === "de" ? "Monat" : "mo"}`;
 
   if (!heading && !daysQuestion && !employeesQuestion && !subsidyQuestion) return null;
 
@@ -66,12 +154,13 @@ export function PricingSection({ section, locale }: Props) {
                 </p>
               </div>
               <div className="flex w-full max-w-[1200px] flex-wrap justify-center gap-3">
-                {DAY_OPTIONS.map((option, index) => (
+                {DAY_OPTIONS.map((option) => (
                   <DayOption
                     key={option.value}
                     value={option.value}
                     label={pickLocale(option.label, locale) ?? option.label.en}
-                    selected={index === 2}
+                    selected={days === Number(option.value)}
+                    onSelect={() => setDays(Number(option.value))}
                   />
                 ))}
               </div>
@@ -81,38 +170,50 @@ export function PricingSection({ section, locale }: Props) {
           {employeesQuestion && (
             <PricingSliderRow
               question={employeesQuestion}
-              minLabel="20"
-              valueLabel={locale === "de" ? "50 Mitarbeitende" : "50 Employees"}
-              maxLabel="250"
-              thumbPercent={thumbPercent(
-                PRICING_SLIDER.employees.min,
-                PRICING_SLIDER.employees.max,
-                PRICING_SLIDER.employees.value,
-              )}
+              min={config.employeesMin}
+              max={config.employeesMax}
+              step={1}
+              value={employees}
+              onChange={(value) => setEmployees(Math.round(value))}
+              minLabel={String(config.employeesMin)}
+              valueLabel={`${employees} ${locale === "de" ? "Mitarbeitende" : "Employees"}`}
+              maxLabel={String(config.employeesMax)}
             />
           )}
 
           {subsidyQuestion && (
             <PricingSliderRow
               question={subsidyQuestion}
-              minLabel="3 €"
-              valueLabel={locale === "de" ? "4,40 € Zuschuss" : "4.40 € Subsidy"}
-              maxLabel="10 €"
-              thumbPercent={thumbPercent(
-                PRICING_SLIDER.subsidyEuro.min,
-                PRICING_SLIDER.subsidyEuro.max,
-                PRICING_SLIDER.subsidyEuro.value,
-              )}
+              min={config.subsidyMin}
+              max={config.subsidyMax}
+              step={0.1}
+              value={subsidy}
+              onChange={(value) => setSubsidy(Number(value.toFixed(1)))}
+              minLabel={formatEuro(config.subsidyMin, locale, 0)}
+              valueLabel={`${formatEuro(subsidy, locale)} ${
+                locale === "de" ? "Zuschuss" : "Subsidy"
+              }`}
+              maxLabel={formatEuro(config.subsidyMax, locale, 0)}
             />
           )}
 
           {(employeeResult || companyResult) && (
             <div className="reveal grid w-full max-w-[1200px] grid-cols-1 gap-3.5 lg:grid-cols-2">
               {employeeResult && (
-                <ResultCard card={employeeResult} locale={locale} variant="dark" />
+                <ResultCard
+                  card={employeeResult}
+                  locale={locale}
+                  valueOverride={employeeResultValue}
+                  variant="dark"
+                />
               )}
               {companyResult && (
-                <ResultCard card={companyResult} locale={locale} variant="light" />
+                <ResultCard
+                  card={companyResult}
+                  locale={locale}
+                  valueOverride={companyResultValue}
+                  variant="light"
+                />
               )}
             </div>
           )}
@@ -131,12 +232,13 @@ export function PricingSection({ section, locale }: Props) {
 
           {ctaLabel && ctaHref && (
             <div className="reveal flex h-12 w-full items-center justify-center">
-              <Link
-                href={ctaHref as Route}
+              <CtaPopupButton
+                href={ctaHref}
+                label={ctaLabel}
                 className="inline-flex h-12 items-center justify-center rounded-[77.707px] bg-[#024930] px-6 text-lg font-medium tracking-[0.216px] text-white transition-colors hover:bg-[var(--color-brand-green)]"
               >
                 {ctaLabel}
-              </Link>
+              </CtaPopupButton>
             </div>
           )}
         </div>
@@ -161,17 +263,27 @@ function PricingIcon() {
 
 function PricingSliderRow({
   question,
+  min,
+  max,
+  step,
+  value,
+  onChange,
   minLabel,
   valueLabel,
   maxLabel,
-  thumbPercent: thumbPct,
 }: {
   question: string;
+  min: number;
+  max: number;
+  step: number;
+  value: number;
+  onChange: (value: number) => void;
   minLabel: string;
   valueLabel: string;
   maxLabel: string;
-  thumbPercent: number;
 }) {
+  const thumbPct = thumbPercent(min, max, value);
+
   return (
     <div className="reveal flex w-full max-w-[1200px] flex-col gap-[30px] lg:flex-row lg:items-center lg:gap-10">
       <div className="flex w-full max-w-[469px] items-center gap-5">
@@ -192,19 +304,17 @@ function PricingSliderRow({
         <div className="grid w-full min-w-0 grid-cols-[auto_minmax(0,1fr)_auto] grid-rows-[auto_auto] items-center gap-x-2 gap-y-[22px] sm:gap-x-4">
           <div className="col-start-1 row-start-1" aria-hidden />
           <div className="relative col-start-2 row-start-1 h-5 w-full min-w-0">
-            <div
-              className="pointer-events-none absolute inset-x-0 top-1/2 h-[3px] -translate-y-1/2 rounded-full bg-[#FEACCF]"
-              aria-hidden
+            <input
+              type="range"
+              min={min}
+              max={max}
+              step={step}
+              value={value}
+              aria-label={question}
+              aria-valuetext={valueLabel}
+              onChange={(event) => onChange(Number(event.currentTarget.value))}
+              className="pricing-range absolute inset-x-0 top-1/2 h-5 w-full -translate-y-1/2 cursor-pointer bg-transparent"
             />
-            <div
-              className="absolute top-1/2 size-[14px] -translate-x-1/2 -translate-y-1/2"
-              style={{ left: `${thumbPct}%` }}
-              aria-hidden
-            >
-              <svg className="h-full w-full" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-                <circle cx="7" cy="7" r="7" fill="#FEACCF" />
-              </svg>
-            </div>
           </div>
           <div className="col-start-3 row-start-1" aria-hidden />
 
@@ -232,14 +342,19 @@ function DayOption({
   value,
   label,
   selected,
+  onSelect,
 }: {
   value: string;
   label: string;
   selected: boolean;
+  onSelect: () => void;
 }) {
   return (
-    <div
-      className={`flex min-h-[216px] min-w-[140px] flex-1 flex-col items-center justify-center rounded-[14px] px-8 py-6 ${
+    <button
+      type="button"
+      aria-pressed={selected}
+      onClick={onSelect}
+      className={`flex min-h-[216px] min-w-[140px] flex-1 flex-col items-center justify-center rounded-[14px] px-8 py-6 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#024930] ${
         selected ? "bg-[#024930] text-[#f9ffe9]" : "border border-[#024930] text-[#024930]"
       }`}
     >
@@ -247,21 +362,23 @@ function DayOption({
         <p className="text-[81px] font-medium leading-[0.95] tracking-[-2.43px]">{value}</p>
         <p className="text-[26px] font-semibold leading-[1.5]">{label}</p>
       </div>
-    </div>
+    </button>
   );
 }
 
 function ResultCard({
   card,
   locale,
+  valueOverride,
   variant,
 }: {
   card: PricingResultCard;
   locale: Locale;
+  valueOverride?: string;
   variant: "dark" | "light";
 }) {
   const heading = pickLocale(card.heading, locale);
-  const value = pickLocale(card.value, locale);
+  const value = valueOverride ?? pickLocale(card.value, locale);
   const caption = pickLocale(card.caption, locale);
   const note = pickLocale(card.note, locale);
 

@@ -1,8 +1,6 @@
-import Link from "next/link";
-import type { Route } from "next";
-
 import { ProductCard } from "@/components/sections/ProductCard";
 import { Container } from "@/components/ui/Container";
+import { CtaPopupButton } from "@/components/ui/CtaPopup";
 import { pickLocale, type Locale } from "@/lib/i18n";
 import type { Homepage } from "@/types/sanity";
 
@@ -52,12 +50,13 @@ export function ProductsSection({ products, locale }: Props) {
 
           {ctaLabel && ctaHref && (
             <div className="reveal flex h-12 w-full items-center justify-center">
-              <Link
-                href={ctaHref as Route}
+              <CtaPopupButton
+                href={ctaHref}
+                label={ctaLabel}
                 className="inline-flex h-[47.37px] items-center justify-center rounded-[77.707px] bg-[#024930] px-6 text-lg font-medium tracking-[0.216px] text-white transition-colors hover:bg-[var(--color-brand-green)]"
               >
                 {ctaLabel}
-              </Link>
+              </CtaPopupButton>
             </div>
           )}
         </div>

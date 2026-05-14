@@ -6,7 +6,7 @@ import { LOCALES, type Locale } from "@/lib/i18n";
 export function LocaleToggle({ currentLocale }: { currentLocale: Locale }) {
   return (
     <div
-      className="inline-flex h-8 w-[89px] shrink-0 items-center rounded-[4px] p-0"
+      className="inline-flex h-8 w-[95px] shrink-0 items-center rounded-[4px] p-0"
       style={{
         backgroundImage:
           "linear-gradient(90deg, rgba(0, 20, 10, 0.204) 0%, rgba(0, 45, 30, 0.067) 100%), linear-gradient(90deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.9) 100%)",
@@ -16,7 +16,7 @@ export function LocaleToggle({ currentLocale }: { currentLocale: Locale }) {
     >
       {LOCALES.map((l) => {
         const active = l === currentLocale;
-        const label = l === "de" ? "DU" : l.toUpperCase();
+        const label = l === "de" ? "DE" : l.toUpperCase();
         return (
           <Link
             key={l}

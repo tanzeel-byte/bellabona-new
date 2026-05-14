@@ -59,6 +59,42 @@ body {
   font-family: var(--font-sans);
 }
 
+.pricing-range {
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.pricing-range::-webkit-slider-runnable-track {
+  height: 3px;
+  border-radius: 9999px;
+  background: #feaccf;
+}
+
+.pricing-range::-webkit-slider-thumb {
+  width: 14px;
+  height: 14px;
+  margin-top: -5.5px;
+  border: 0;
+  border-radius: 9999px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: #feaccf;
+}
+
+.pricing-range::-moz-range-track {
+  height: 3px;
+  border-radius: 9999px;
+  background: #feaccf;
+}
+
+.pricing-range::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border: 0;
+  border-radius: 9999px;
+  background: #feaccf;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .reveal {
     animation: reveal 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;

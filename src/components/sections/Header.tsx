@@ -6,7 +6,13 @@ import { Wordmark } from "@/components/brand/Wordmark";
 import { MobileNavDrawer } from "@/components/sections/MobileNavDrawer";
 import { Container } from "@/components/ui/Container";
 import { CtaPopupButton } from "@/components/ui/CtaPopup";
+import { InPageSectionLink } from "@/components/ui/InPageSectionLink";
 import { LocaleToggle } from "@/components/ui/LocaleToggle";
+import {
+  HEADER_MORE_SECTION_ID,
+  isDailyLunchNav,
+  isMoreNav,
+} from "@/lib/header-nav";
 import svgPaths from "@/lib/figma/svg-paths";
 import { type Locale, pickLocale } from "@/lib/i18n";
 import { urlFor } from "@/sanity/lib/image";
@@ -36,7 +42,8 @@ export function Header({ settings, locale }: Props) {
         return {
           label,
           href: link.href,
-          isMore: /more|mehr/i.test(label),
+          isMore: isMoreNav(label),
+          isDailyLunch: isDailyLunchNav(label, link.href),
         };
       })
       .filter((link): link is NonNullable<typeof link> => Boolean(link)) ?? [];
@@ -83,16 +90,30 @@ export function Header({ settings, locale }: Props) {
                 {header.links.map((link, idx) => {
                   const label = pickLocale(link.label, locale);
                   if (!label || !link.href) return null;
-                  const isMore = /more|mehr/i.test(label);
+                  const isMore = isMoreNav(label);
+                  const isDailyLunch = isDailyLunchNav(label, link.href);
+                  const navClass =
+                    "inline-flex h-12 items-center gap-3 rounded-md px-4 text-lg font-medium tracking-[-0.04px] text-[#1a211e] transition-colors hover:text-[var(--color-brand-green)]";
                   return (
                     <li key={`${link.href}-${idx}`}>
-                      <Link
-                        href={link.href as Route}
-                        className="inline-flex h-12 items-center gap-3 rounded-md px-4 text-lg font-medium tracking-[-0.04px] text-[#1a211e] transition-colors hover:text-[var(--color-brand-green)]"
-                      >
-                        {label}
-                        {isMore && <ChevronDownIcon />}
-                      </Link>
+                      {isDailyLunch ? (
+                        <CtaPopupButton href={link.href} label={label} className={navClass}>
+                          {label}
+                        </CtaPopupButton>
+                      ) : isMore ? (
+                        <InPageSectionLink
+                          locale={locale}
+                          sectionId={HEADER_MORE_SECTION_ID}
+                          className={navClass}
+                        >
+                          {label}
+                          <ChevronDownIcon />
+                        </InPageSectionLink>
+                      ) : (
+                        <Link href={link.href as Route} className={navClass}>
+                          {label}
+                        </Link>
+                      )}
                     </li>
                   );
                 })}

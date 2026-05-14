@@ -45,7 +45,10 @@ const POPUP_COPY = {
     submitDefault: "Send request",
     submitMenu: "Get full menu",
     close: "Close popup",
-    success: "Thanks. We'll be in touch shortly.",
+    successTitle: "Thank you",
+    successBody:
+      "We have received your details. Our team will get back to you shortly.",
+    successCta: "Close",
   },
   de: {
     defaultTitle: "Erzählen Sie uns von Ihren Lunch-Plänen",
@@ -59,7 +62,10 @@ const POPUP_COPY = {
     submitDefault: "Anfrage senden",
     submitMenu: "Menü erhalten",
     close: "Popup schließen",
-    success: "Danke. Wir melden uns in Kürze.",
+    successTitle: "Vielen Dank",
+    successBody:
+      "Wir haben Ihre Angaben erhalten. Unser Team meldet sich in Kürze bei Ihnen.",
+    successCta: "Schließen",
   },
 } as const;
 
@@ -160,16 +166,43 @@ export function CtaPopupProvider({
               id={titleId}
               className="pr-12 text-[34px] font-bold leading-tight text-[#024930]"
             >
-              {dialogTitle}
+              {submitted ? copy.successTitle : dialogTitle}
             </h2>
 
             {submitted ? (
-              <p className="mt-8 text-xl leading-7 text-[#024930]">{copy.success}</p>
+              <div className="mt-10 flex flex-col items-center text-center">
+                <div
+                  className="mb-6 flex size-16 items-center justify-center rounded-full bg-[#e8f5ef] text-[#024930]"
+                  aria-hidden
+                >
+                  <svg viewBox="0 0 24 24" className="size-9" fill="none" aria-hidden="true">
+                    <path
+                      d="M6 12.5 10.2 17 18 7"
+                      stroke="currentColor"
+                      strokeWidth="2.2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </div>
+                <p className="max-w-md text-lg leading-7 text-[#1a211e]/85">
+                  {copy.successBody}
+                </p>
+                <button
+                  type="button"
+                  onClick={close}
+                  className="mt-10 h-14 min-w-[200px] rounded-[5px] bg-[#024930] px-8 text-lg font-semibold text-white transition-colors hover:bg-[#013724]"
+                >
+                  {copy.successCta}
+                </button>
+              </div>
             ) : (
               <form
                 className="mt-7 flex flex-col gap-7"
                 onSubmit={(event) => {
                   event.preventDefault();
+                  const form = event.currentTarget;
+                  if (!form.reportValidity()) return;
                   setSubmitted(true);
                 }}
               >
@@ -177,10 +210,13 @@ export function CtaPopupProvider({
                 <input type="hidden" name="sourceLabel" value={request.label ?? ""} />
 
                 <label className="flex flex-col gap-2 text-2xl text-[#008060]">
-                  <span>{copy.firstName}</span>
+                  <span>
+                    {copy.firstName} <span className="text-[#b00020]">*</span>
+                  </span>
                   <input
                     name="firstName"
                     autoComplete="given-name"
+                    required
                     className="h-[60px] rounded-[3px] border border-[#9aa0a6] bg-[#f5f8fa] px-4 text-xl text-[#1a211e] outline-none focus:border-[#024930]"
                   />
                 </label>

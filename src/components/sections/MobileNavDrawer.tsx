@@ -7,13 +7,20 @@ import type { Route } from "next";
 
 import { Wordmark } from "@/components/brand/Wordmark";
 import { CtaPopupButton } from "@/components/ui/CtaPopup";
+import { InPageSectionLink } from "@/components/ui/InPageSectionLink";
 import { LocaleToggle } from "@/components/ui/LocaleToggle";
+import {
+  HEADER_MORE_SECTION_ID,
+  isDailyLunchNav,
+  isMoreNav,
+} from "@/lib/header-nav";
 import type { Locale } from "@/lib/i18n";
 
 type NavItem = {
   label: string;
   href: string;
   isMore?: boolean;
+  isDailyLunch?: boolean;
 };
 
 type Props = {
@@ -122,17 +129,44 @@ export function MobileNavDrawer({
           >
             {links.length > 0 && (
               <ul className="flex flex-col gap-2">
-                {links.map((link) => (
-                  <li key={`${link.href}-${link.label}`}>
-                    <Link
-                      href={link.href as Route}
-                      className="inline-flex min-h-12 items-center gap-3 rounded-md px-2 text-lg font-medium tracking-[-0.04px] text-[#1a211e] transition-colors hover:text-[var(--color-brand-green)]"
-                      onClick={close}
-                    >
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
+                {links.map((link) => {
+                  const rowClass =
+                    "inline-flex min-h-12 items-center gap-3 rounded-md px-2 text-lg font-medium tracking-[-0.04px] text-[#1a211e] transition-colors hover:text-[var(--color-brand-green)]";
+                  const isMore = link.isMore ?? isMoreNav(link.label);
+                  const isDailyLunch =
+                    link.isDailyLunch ?? isDailyLunchNav(link.label, link.href);
+                  return (
+                    <li key={`${link.href}-${link.label}`}>
+                      {isDailyLunch ? (
+                        <CtaPopupButton
+                          href={link.href}
+                          label={link.label}
+                          className={rowClass}
+                          onOpen={close}
+                        >
+                          {link.label}
+                        </CtaPopupButton>
+                      ) : isMore ? (
+                        <InPageSectionLink
+                          locale={locale}
+                          sectionId={HEADER_MORE_SECTION_ID}
+                          className={rowClass}
+                          onNavigate={close}
+                        >
+                          {link.label}
+                        </InPageSectionLink>
+                      ) : (
+                        <Link
+                          href={link.href as Route}
+                          className={rowClass}
+                          onClick={close}
+                        >
+                          {link.label}
+                        </Link>
+                      )}
+                    </li>
+                  );
+                })}
               </ul>
             )}
 

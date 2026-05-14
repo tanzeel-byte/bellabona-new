@@ -236,7 +236,7 @@ async function seed() {
           _key: cryptoKey(),
           _type: "navLink",
           label: { en: "More", de: "Mehr" },
-          href: "/more",
+          href: "/",
         },
       ],
       secondaryLink: {

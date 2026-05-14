@@ -1,3 +1,7 @@
+"use client";
+
+import { useEffect, useState } from "react";
+
 import { SanityImage as Image } from "@/components/ui/SanityImage";
 
 import { FIGMA_IMAGES } from "@/lib/figma/assets";
@@ -16,7 +20,6 @@ type TestimonialSlideData = {
   authorRole?: string;
   photo?: SanityImage;
   photoAlt: string;
-  fallbackSrc: string;
 };
 
 export function TestimonialsSection({ section, locale }: Props) {
@@ -50,19 +53,29 @@ export function TestimonialsSection({ section, locale }: Props) {
             authorRole,
             photo: section.rightPhoto,
             photoAlt: rightAlt,
-            fallbackSrc: rightSrc,
           },
         ]
       : [];
   const baseItems: TestimonialSlideData[] =
-    carouselItems.length > 0
-      ? carouselItems.map((item, i) => ({
-          ...item,
-          fallbackSrc: i % 2 === 0 ? rightSrc : leftSrc,
-          photoAlt: item.photoAlt || (i % 2 === 0 ? rightAlt : leftAlt),
-        }))
-      : fallbackItems;
-  const trackItems = [...baseItems, ...baseItems];
+    carouselItems.length > 0 ? carouselItems : fallbackItems;
+  const loopItems =
+    baseItems.length === 1
+      ? [baseItems[0], baseItems[0], baseItems[0]]
+      : baseItems;
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  useEffect(() => {
+    if (loopItems.length <= 1) return;
+
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (mediaQuery.matches) return;
+
+    const interval = window.setInterval(() => {
+      setActiveIndex((current) => (current + 1) % loopItems.length);
+    }, 4200);
+
+    return () => window.clearInterval(interval);
+  }, [loopItems.length]);
 
   if (!heading && baseItems.length === 0) return null;
 
@@ -88,13 +101,20 @@ export function TestimonialsSection({ section, locale }: Props) {
         )}
 
         {baseItems.length > 0 && (
-          <div className="testimonial-carousel-viewport reveal relative w-full overflow-hidden py-2">
-            <div className="testimonial-carousel-track flex w-max items-stretch gap-5 sm:gap-7 lg:gap-10">
-              {trackItems.map((item, index) => (
+          <div className="testimonial-carousel-viewport reveal relative w-[calc(100%+2.5rem)] -translate-x-5 overflow-hidden py-1 sm:w-[calc(100%+5rem)] sm:-translate-x-10 lg:w-[calc(100%+10rem)] lg:-translate-x-20">
+            <div
+              className="flex w-full items-stretch transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]"
+              style={{ transform: `translateX(-${activeIndex * 100}%)` }}
+            >
+              {loopItems.map((item, index) => (
                 <TestimonialSlide
                   key={`${item.authorName ?? item.quote ?? "slide"}-${index}`}
                   item={item}
-                  ariaHidden={index >= baseItems.length}
+                  leftSrc={leftSrc}
+                  leftAlt={leftAlt}
+                  rightSrc={rightSrc}
+                  rightAlt={rightAlt}
+                  ariaHidden={index !== activeIndex}
                 />
               ))}
             </div>
@@ -107,47 +127,68 @@ export function TestimonialsSection({ section, locale }: Props) {
 
 function TestimonialSlide({
   item,
+  leftSrc,
+  leftAlt,
+  rightSrc,
+  rightAlt,
   ariaHidden,
 }: {
   item: TestimonialSlideData;
+  leftSrc: string;
+  leftAlt: string;
+  rightSrc: string;
+  rightAlt: string;
   ariaHidden?: boolean;
 }) {
-  const src = sanityImageUrl(item.photo, 1000) ?? item.fallbackSrc;
+  const testimonialSrc = sanityImageUrl(item.photo, 900) ?? rightSrc;
+  const testimonialAlt = item.photoAlt || rightAlt;
 
   return (
     <article
       aria-hidden={ariaHidden}
-      className="flex h-[min(22rem,calc(100vw-2.5rem))] w-[min(calc(100vw-2rem),56rem)] shrink-0 overflow-hidden rounded-[22px] shadow-[0_22px_50px_-18px_rgba(2,73,48,0.35)] ring-1 ring-[#024930]/15 sm:h-[min(24rem,calc(100vw-3rem))] sm:rounded-[26px] lg:h-[26.5rem] lg:w-[58rem] lg:rounded-[28px]"
+      className="flex w-full shrink-0"
     >
-      <div className="relative w-[38%] min-w-[9.5rem] shrink-0 bg-[#0a1f18] sm:min-w-[11rem] lg:min-w-[13.5rem]">
-        <Image
-          alt={item.photoAlt}
-          src={src}
-          fill
-          sizes="(min-width: 1024px) 240px, 38vw"
-          className="pointer-events-none object-cover"
-        />
-      </div>
+      <div className="grid h-[22rem] w-full grid-cols-[minmax(5.5rem,0.72fr)_minmax(14rem,1.8fr)_minmax(5.5rem,0.72fr)] items-center gap-4 overflow-hidden bg-[#e6ffa9] sm:h-[25rem] sm:grid-cols-[minmax(11rem,0.8fr)_minmax(27rem,2.1fr)_minmax(11rem,0.8fr)] sm:gap-7 lg:h-[26.25rem] lg:grid-cols-[minmax(16rem,0.85fr)_minmax(36rem,2.2fr)_minmax(16rem,0.85fr)] lg:gap-10">
+        <div className="relative h-[67%] w-full overflow-hidden rounded-r-[18px] bg-[#0a1f18] shadow-[0_18px_40px_-26px_rgba(0,38,22,0.55)] sm:h-[70%] sm:rounded-r-[20px] lg:h-[71%]">
+          <Image
+            alt={leftAlt}
+            src={leftSrc}
+            fill
+            sizes="(min-width: 1024px) 320px, (min-width: 640px) 24vw, 110px"
+            className="pointer-events-none object-cover"
+          />
+        </div>
 
-      <figure className="relative flex min-w-0 flex-1 flex-col bg-[#024930] px-5 pb-5 pt-8 text-white sm:px-7 sm:pb-6 sm:pt-10 lg:px-10 lg:pb-8 lg:pt-12">
-        {item.quote && (
-          <blockquote className="mx-auto w-full max-w-[36rem] flex-1 text-center text-[clamp(1rem,2.8vw,1.35rem)] font-normal leading-snug tracking-[-0.02em] sm:leading-[1.35] lg:text-[1.65rem] lg:leading-[1.25]">
-            {item.quote}
-          </blockquote>
-        )}
-        {(item.authorName || item.authorRole) && (
-          <figcaption className="mt-6 w-full shrink-0 self-end text-right sm:mt-8">
-            <p className="ml-auto inline-block max-w-[16rem] text-right text-[0.9375rem] leading-snug text-white/95 sm:text-base lg:text-[1.05rem]">
-              {item.authorName && (
-                <span className="block font-semibold tracking-tight text-white">{item.authorName}</span>
-              )}
-              {item.authorRole && (
-                <span className="mt-0.5 block text-white/80">{item.authorRole}</span>
-              )}
-            </p>
-          </figcaption>
-        )}
-      </figure>
+        <figure className="relative z-10 flex h-full min-w-0 flex-col items-center justify-center rounded-[22px] bg-[#024930] px-6 py-9 text-center text-white shadow-[0_24px_52px_-28px_rgba(0,38,22,0.72)] sm:rounded-[24px] sm:px-12 sm:py-12 lg:rounded-[26px] lg:px-16">
+          {item.quote && (
+            <blockquote className="mx-auto max-w-[36rem] text-[clamp(1.05rem,2.8vw,1.75rem)] font-normal leading-[1.06] tracking-[-0.035em] sm:leading-[1.08] lg:text-[2rem]">
+              {item.quote}
+            </blockquote>
+          )}
+          {(item.authorName || item.authorRole) && (
+            <figcaption className="mt-12 shrink-0 text-center sm:mt-16 lg:mt-20">
+              <p className="text-[0.8rem] leading-snug text-white/90 sm:text-[0.9375rem]">
+                {item.authorName && (
+                  <span className="block font-semibold tracking-tight text-white">{item.authorName}</span>
+                )}
+                {item.authorRole && (
+                  <span className="mt-1 block text-white/80">{item.authorRole}</span>
+                )}
+              </p>
+            </figcaption>
+          )}
+        </figure>
+
+        <div className="relative h-[67%] w-full overflow-hidden rounded-l-[18px] bg-[#0a1f18] shadow-[0_18px_40px_-26px_rgba(0,38,22,0.55)] sm:h-[70%] sm:rounded-l-[20px] lg:h-[71%]">
+          <Image
+            alt={testimonialAlt}
+            src={testimonialSrc}
+            fill
+            sizes="(min-width: 1024px) 320px, (min-width: 640px) 24vw, 110px"
+            className="pointer-events-none object-cover"
+          />
+        </div>
+      </div>
     </article>
   );
 }

@@ -26,6 +26,32 @@ export const pricingResultCard = defineType({
   ],
 });
 
+export const testimonialItem = defineType({
+  name: "testimonialItem",
+  title: "Testimonial",
+  type: "object",
+  fields: [
+    defineField({ name: "quote", title: "Quote", type: "localeText" }),
+    defineField({ name: "authorName", title: "Author name", type: "localeString" }),
+    defineField({ name: "authorRole", title: "Author role", type: "localeString" }),
+    defineField({
+      name: "photo",
+      title: "Photo",
+      type: "image",
+      options: { hotspot: true },
+      fields: [
+        defineField({ name: "alt", title: "Alt text", type: "localeString" }),
+      ],
+    }),
+  ],
+  preview: {
+    select: { title: "authorName.en", subtitle: "authorRole.en", media: "photo" },
+    prepare({ title, subtitle, media }) {
+      return { title: title || "Testimonial", subtitle, media };
+    },
+  },
+});
+
 export const homepageFaqItem = defineType({
   name: "homepageFaqItem",
   title: "FAQ item",

@@ -4,7 +4,12 @@ import { homepage } from "./documents/homepage";
 import { siteSettings } from "./documents/siteSettings";
 import { cta } from "./objects/cta";
 import { cultureStat, cultureTimelineItem } from "./objects/cultureSection";
-import { homepageFaqItem, homepageStep, pricingResultCard } from "./objects/homepageSections";
+import {
+  homepageFaqItem,
+  homepageStep,
+  pricingResultCard,
+  testimonialItem,
+} from "./objects/homepageSections";
 import { featureItem } from "./objects/featureItem";
 import { hero } from "./objects/hero";
 import { localePortableText } from "./objects/localePortableText";
@@ -29,6 +34,7 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   cultureTimelineItem,
   homepageStep,
   pricingResultCard,
+  testimonialItem,
   homepageFaqItem,
 
   // Documents (singletons)

@@ -337,6 +337,15 @@ export const homepage = defineType({
         defineField({ name: "authorName", title: "Author name", type: "localeString" }),
         defineField({ name: "authorRole", title: "Author role", type: "localeString" }),
         defineField({
+          name: "items",
+          title: "Carousel testimonials",
+          type: "array",
+          description:
+            "Optional. When filled, these cards become the moving testimonial carousel. The legacy quote fields below remain as fallback content.",
+          of: [{ type: "testimonialItem" }],
+          validation: (rule) => rule.max(8),
+        }),
+        defineField({
           name: "leftPhoto",
           title: "Left edge photo",
           type: "image",

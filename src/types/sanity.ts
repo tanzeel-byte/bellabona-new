@@ -163,6 +163,12 @@ export type Homepage = {
     quote?: LocaleString;
     authorName?: LocaleString;
     authorRole?: LocaleString;
+    items?: Array<{
+      quote?: LocaleString;
+      authorName?: LocaleString;
+      authorRole?: LocaleString;
+      photo?: SanityImage;
+    }>;
     leftPhoto?: SanityImage;
     rightPhoto?: SanityImage;
   };

@@ -115,6 +115,12 @@ export const HOMEPAGE_QUERY = groq`
       quote,
       authorName,
       authorRole,
+      items[]{
+        quote,
+        authorName,
+        authorRole,
+        photo${imageProjection}
+      },
       leftPhoto${imageProjection},
       rightPhoto${imageProjection}
     },

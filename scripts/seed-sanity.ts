@@ -777,7 +777,7 @@ async function seed() {
       defaultDays: 3,
       employeesMin: 20,
       employeesMax: 250,
-      defaultEmployees: 50,
+      defaultEmployees: 70,
       subsidyMin: 3,
       subsidyMax: 10,
       defaultSubsidy: 4.4,
@@ -829,6 +829,47 @@ async function seed() {
       },
       authorName: { en: "Anna Boehm", de: "Anna Boehm" },
       authorRole: { en: "People Manager", de: "People Managerin" },
+      items: [
+        {
+          _key: cryptoKey(),
+          quote: {
+            en: "This is the first benefit that everyone is really happy about—and that they will continue to use for longer than two months.",
+            de: "Das ist der erste Benefit, über den wirklich alle glücklich sind – und den sie länger als zwei Monate nutzen werden.",
+          },
+          authorName: { en: "Anna Boehm", de: "Anna Boehm" },
+          authorRole: { en: "People Manager", de: "People Managerin" },
+          photo: {
+            ...imageRef(testimonialRightId),
+            alt: { en: "Colleague enjoying lunch", de: "Kollegin beim Mittagessen" },
+          },
+        },
+        {
+          _key: cryptoKey(),
+          quote: {
+            en: "Bella&Bona makes lunch feel effortless. Our team comes together more often, and finance loves the simple monthly billing.",
+            de: "Bella&Bona macht Mittagessen mühelos. Unser Team kommt häufiger zusammen und Finance liebt die einfache Monatsabrechnung.",
+          },
+          authorName: { en: "Max Keller", de: "Max Keller" },
+          authorRole: { en: "Office Manager", de: "Office Manager" },
+          photo: {
+            ...imageRef(testimonialLeftId),
+            alt: { en: "Team lunch scene", de: "Team beim Mittagessen" },
+          },
+        },
+        {
+          _key: cryptoKey(),
+          quote: {
+            en: "The variety is what sold us. Everyone finds something they like, and the lunch days are now the busiest office days.",
+            de: "Die Vielfalt hat uns überzeugt. Alle finden etwas Passendes und Lunch-Tage sind jetzt unsere vollsten Bürotage.",
+          },
+          authorName: { en: "Laura Schmidt", de: "Laura Schmidt" },
+          authorRole: { en: "People Operations", de: "People Operations" },
+          photo: {
+            ...imageRef(testimonialRightId),
+            alt: { en: "Colleague enjoying lunch", de: "Kollegin beim Mittagessen" },
+          },
+        },
+      ],
       leftPhoto: {
         ...imageRef(testimonialLeftId),
         alt: { en: "Team lunch scene", de: "Team beim Mittagessen" },

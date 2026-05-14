@@ -28,7 +28,7 @@ export function ProductsSection({ products, locale }: Props) {
       className="bg-[#e6ffa9] py-20"
     >
       <Container className="max-w-[1440px] px-5 md:px-10 ">
-        <div className="flex flex-col items-center gap-16">
+        <div className="flex flex-col items-center gap-10 sm:gap-12 lg:gap-14">
           {heading && (
             <h2
               id="products-heading"
@@ -39,13 +39,18 @@ export function ProductsSection({ products, locale }: Props) {
           )}
 
           {items.length > 0 && (
-            <ul className="reveal grid w-full grid-cols-1 justify-items-center gap-[32px] lg:grid-cols-3">
-              {items.map((card, index) => (
-                <li key={`${pickLocale(card.title, locale) ?? "meal"}-${index}`}>
-                  <ProductCard card={card} locale={locale} index={index} />
-                </li>
-              ))}
-            </ul>
+            <div className="w-full max-lg:-mx-5 max-lg:snap-x max-lg:snap-mandatory max-lg:overflow-x-auto max-lg:overflow-y-clip max-lg:px-5 max-lg:pb-1 max-lg:[scrollbar-width:none] max-lg:[-ms-overflow-style:none] max-lg:[&::-webkit-scrollbar]:hidden md:max-lg:-mx-10 md:max-lg:px-10 lg:mx-0 lg:snap-none lg:overflow-visible lg:px-0">
+              <ul className="reveal grid w-max max-w-none grid-flow-col grid-rows-1 auto-cols-[min(85vw,350px)] items-stretch gap-5 pr-4 sm:auto-cols-[350px] sm:gap-6 sm:pr-6 lg:grid-flow-row lg:w-full lg:max-w-full lg:auto-cols-auto lg:grid-cols-3 lg:gap-8 lg:pr-0">
+                {items.map((card, index) => (
+                  <li
+                    key={`${pickLocale(card.title, locale) ?? "meal"}-${index}`}
+                    className="flex h-full min-h-0 w-full flex-col snap-start"
+                  >
+                    <ProductCard card={card} locale={locale} index={index} />
+                  </li>
+                ))}
+              </ul>
+            </div>
           )}
 
           {ctaLabel && ctaHref && (

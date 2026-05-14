@@ -21,12 +21,13 @@ export function ProductCard({ card, locale, index = 0 }: Props) {
   const imageAlt = pickLocale(card.image?.alt, locale) ?? title ?? "";
   const reviewsLabel = locale === "de" ? "Bewertungen" : "reviews";
   const splitRatingStyle = index >= 3;
+  const clipPathId = `pc-thumb-${index}`;
 
   if (!title && !mealSrc) return null;
 
   return (
-    <article className="flex w-[350px] sm:w-[405px] max-w-full shrink-0 flex-col gap-[32px] rounded-[20px] bg-white px-4 pb-8 pt-4">
-      <div className="relative h-[373px] w-full shrink-0 overflow-clip rounded-[16px] bg-[#f9feec]">
+    <article className="flex min-h-0 w-full flex-1 flex-col gap-6 rounded-[20px] bg-white px-4 pb-6 pt-4 lg:gap-8 lg:pb-8">
+      <div className="relative h-[280px] w-full shrink-0 overflow-clip rounded-[16px] bg-[#f9feec] sm:h-[320px] lg:h-[373px]">
         <div className="pointer-events-none absolute left-[calc(50%-0.11px)] top-[calc(50%+114.1px)] z-0 flex h-[597.367px] w-[601.733px] -translate-x-1/2 -translate-y-1/2 items-center justify-center">
           <div className="rotate-[58.67deg]">
             <div className="relative h-[442.84px] w-[429.78px]">
@@ -59,18 +60,18 @@ export function ProductCard({ card, locale, index = 0 }: Props) {
         {tag && <CategoryBadge label={tag} />}
       </div>
 
-      <div className="flex w-full min-h-[108px] flex-col gap-2.5">
+      <div className="flex min-h-0 flex-1 flex-col gap-3">
         {title && (
-          <h3 className="w-full text-[24px] font-semibold leading-[1.4] tracking-[0.288px] text-black">
+          <h3 className="line-clamp-2 w-full text-[22px] font-semibold leading-[1.35] tracking-[0.288px] text-black sm:text-[24px] sm:leading-[1.4]">
             {title}
           </h3>
         )}
 
         {(card.ratingPercent || card.reviewCount) && (
-          <div className="flex w-full items-center gap-2.5">
-            <ThumbsUpIcon className="size-[26.5px] shrink-0" />
+          <div className="mt-auto flex min-w-0 w-full min-h-[2rem] items-start gap-2.5 sm:items-center">
+            <ThumbsUpIcon clipPathId={clipPathId} className="size-[26.5px] shrink-0" />
             {splitRatingStyle ? (
-              <p className="whitespace-nowrap text-[0px] font-normal leading-none tracking-[0.288px] text-[#1a211e]">
+              <p className="min-w-0 whitespace-normal break-words text-[0px] font-normal leading-snug tracking-[0.288px] text-[#1a211e] sm:whitespace-nowrap sm:leading-none">
                 {card.ratingPercent && (
                   <span className="text-[24px] leading-[1.4]">{card.ratingPercent}</span>
                 )}
@@ -84,7 +85,7 @@ export function ProductCard({ card, locale, index = 0 }: Props) {
                 )}
               </p>
             ) : (
-              <p className="whitespace-nowrap text-[24px] font-normal leading-[1.4] tracking-[0.288px] text-[#1a211e]">
+              <p className="min-w-0 whitespace-normal break-words text-[20px] font-normal leading-snug tracking-[0.288px] text-[#1a211e] sm:whitespace-nowrap sm:text-[24px] sm:leading-[1.4]">
                 {card.ratingPercent}
                 {card.reviewCount && ` (${card.reviewCount} ${reviewsLabel})`}
               </p>
@@ -127,14 +128,20 @@ function TagDismissIcon({ className }: { className?: string }) {
   );
 }
 
-function ThumbsUpIcon({ className }: { className?: string }) {
+function ThumbsUpIcon({
+  className,
+  clipPathId,
+}: {
+  className?: string;
+  clipPathId: string;
+}) {
   return (
     <svg viewBox="0 0 26.5 26.5" aria-hidden="true" className={className} fill="none">
-      <g clipPath="url(#product-card-thumb-clip)">
+      <g clipPath={`url(#${clipPathId})`}>
         <path d={svgPaths.p11f80} fill="black" />
       </g>
       <defs>
-        <clipPath id="product-card-thumb-clip">
+        <clipPath id={clipPathId}>
           <rect fill="white" height="26.5" width="26.5" />
         </clipPath>
       </defs>

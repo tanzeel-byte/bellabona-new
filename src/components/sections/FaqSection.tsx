@@ -22,7 +22,7 @@ export function FaqSection({ section, locale }: Props) {
           {heading && (
             <h2
               id="faq-heading"
-              className="reveal mx-auto max-w-[1200px] text-center text-[40px] font-semibold leading-[60px] tracking-[-0.4px] text-[#1a211e] sm:text-[52px] lg:text-[60px]"
+              className="reveal scroll-mt-28 mx-auto max-w-[1200px] text-center text-[40px] font-semibold leading-[60px] tracking-[-0.4px] text-[#1a211e] sm:scroll-mt-32 sm:text-[52px] lg:text-[60px]"
             >
               {heading}
             </h2>
